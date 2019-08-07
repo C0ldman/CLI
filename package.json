@@ -2,7 +2,10 @@
 	"name": "cobalt-fill",
 	"version": "1.0.0",
 	"description": "Filler for cobalt presentation",
-	"main": "index.js",
+	"main": "src/index.js",
+	"bin": {
+		"cobalt-fill": "bin/create"
+	},
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
@@ -19,8 +22,13 @@
 		"node": ">= 0.8.0"
 	},
 	"dependencies": {
+		"chalk": "^2.4.2",
+		"colors": "^0.6.2",
 		"commander": "^2.2.0",
-		"colors": "^0.6.2"
+		"esm": "^3.2.25",
+		"fs": "0.0.1-security",
+		"inquirer": "^6.5.0",
+		"save": "^2.4.0"
 	},
 	"homepage": "https://github.com/C0ldman/CLI#readme"
 }
