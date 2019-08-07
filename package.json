@@ -1,0 +1,26 @@
+{
+	"name": "cobalt-fill",
+	"version": "1.0.0",
+	"description": "Filler for cobalt presentation",
+	"main": "index.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/C0ldman/CLI.git"
+	},
+	"author": "Y.Ukrainets",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/C0ldman/CLI/issues"
+	},
+	"engines": {
+		"node": ">= 0.8.0"
+	},
+	"dependencies": {
+		"commander": "^2.2.0",
+		"colors": "^0.6.2"
+	},
+	"homepage": "https://github.com/C0ldman/CLI#readme"
+}
