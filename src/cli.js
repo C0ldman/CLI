@@ -1,7 +1,9 @@
 const   chalk = require('chalk'),
 		fs = require('fs'),
 		commander = require('commander'),
-		path = require('path')
+		cheerio = require('cheerio'),
+		path = require('path'),
+		gm = require('gm').subClass({imageMagick: true});
 
 function getSlidesList(){
 	try {
@@ -20,8 +22,8 @@ function getSlideContent(id){
 	try {
 		if(getSlidesList().includes(id)) {
 			process.chdir('./app');
-			let content = fs.createReadStream(`${id}.html`, 'utf8');
-			return content.pipe(process.stdout)
+			let content = fs.readFileSync(`${id}.html`, 'utf8');
+			return content
 		}else{
 			throw new Error('No such slide ID');
 		}
@@ -64,8 +66,8 @@ function getSlideStyles(id){
 	try {
 		if(getSlidesList().includes(id)) {
 			process.chdir('./app/styles');
-			let content = fs.createReadStream(`${id}.css`);
-			return content.pipe(process.stdout)
+			let content = fs.readFileSync(`${id}.css`);
+			return content
 		}else{
 			throw new Error('No such slide ID');
 		}
@@ -74,16 +76,30 @@ function getSlideStyles(id){
 	}
 };
 
+function addTextModels(){}
+function addStyles(id){}
+
 
 commander.version('1.0.0').description('Filler for cobalt presentations');
 commander
-	.option('-h --html <slideIDhtml>','Slide ID to add model,localization,styles from HTML')
-	.option('-i --images <slideIDimages>','Slide ID to fill with co-image HTML,model and styles from images folder')
+	.option('-h --html','Slide ID to add model,localization,styles from HTML')
+	.option('-i --images','Slide ID to fill with co-image HTML,model and styles from images folder')
+	.arguments('<id>')
 	.description('Fill models,localization,styles from html file or images folder')
-	.action(() => {
-	
-	
-	
+	.action((id) => {
+		const $ = cheerio.load(getSlideContent(id));
+		let textTags = $('co-text');
+		let containerTags = $('co-container');
+		let listTags = $('co-list');
+		let tableTags = $('co-table');
+		let graphTags = $('co-bar-graph');
+		let buttonTags = $('co-button');
+		let popupTags = $('co-popup');
+		let imageTags = $('co-image');
+		
+		if (commander.images) {
+			console.log('bls');
+		}
 	});
 
 export function cli(args) {
