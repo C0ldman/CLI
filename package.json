@@ -26,7 +26,6 @@
 		"cheerio": "^1.0.0-rc.3",
 		"commander": "^2.2.0",
 		"esm": "^3.2.25",
-		"fs": "0.0.1-security",
 		"gm": "^1.23.1"
 	},
 	"homepage": "https://github.com/C0ldman/CLI#readme"

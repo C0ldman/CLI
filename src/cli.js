@@ -2,7 +2,6 @@ const   chalk = require('chalk'),
 		fs = require('fs'),
 		commander = require('commander'),
 		cheerio = require('cheerio'),
-		path = require('path'),
 		gm = require('gm').subClass({imageMagick: true});
 
 function getSlidesList(){
@@ -83,9 +82,17 @@ function getIds (content) {
 	return ids
 }
 
+function createStyles (idArray) {
+	let styles=idArray.map((id)=>{
+		let style ='#'+id+' { width:100px;height:100px;transform:matrix(1,0,0,1,0,0)}';
+		return style
+	});
+	return styles
+}
+
 function getModels (content) {
 	let models=content.map((tag)=>{
-		return tag.attribs.model
+		return tag.attribs.model.slice(2)
 	});
 	return models
 }
@@ -111,6 +118,7 @@ commander
 		if (textTags.length){
 			let textId = getIds(textTags);
 			let textModels = getModels(textTags);
+			let style = createStyles(textId);
 		}
 		
 		if (commander.images) {}
