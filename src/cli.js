@@ -76,8 +76,19 @@ function getSlideStyles(id){
 	}
 };
 
-function addTextModels(){}
-function addStyles(id){}
+function getIds (content) {
+	let ids=content.map((tag)=>{
+		return tag.attribs.id
+	});
+	return ids
+}
+
+function getModels (content) {
+	let models=content.map((tag)=>{
+		return tag.attribs.model
+	});
+	return models
+}
 
 
 commander.version('1.0.0').description('Filler for cobalt presentations');
@@ -88,18 +99,21 @@ commander
 	.description('Fill models,localization,styles from html file or images folder')
 	.action((id) => {
 		const $ = cheerio.load(getSlideContent(id));
-		let textTags = $('co-text');
-		let containerTags = $('co-container');
-		let listTags = $('co-list');
-		let tableTags = $('co-table');
-		let graphTags = $('co-bar-graph');
-		let buttonTags = $('co-button');
-		let popupTags = $('co-popup');
-		let imageTags = $('co-image');
+		let textTags = $('co-text').toArray();
+		let containerTags = $('co-container').toArray();
+		let listTags = $('co-list').toArray();
+		let tableTags = $('co-table').toArray();
+		let graphTags = $('co-bar-graph').toArray();
+		let buttonTags = $('co-button').toArray();
+		let popupTags = $('co-popup').toArray();
+		let imageTags = $('co-image').toArray();
 		
-		if (commander.images) {
-			console.log('bls');
+		if (textTags.length){
+			let textId = getIds(textTags);
+			let textModels = getModels(textTags);
 		}
+		
+		if (commander.images) {}
 	});
 
 export function cli(args) {
