@@ -105,6 +105,7 @@ commander
 	.arguments('<id>')
 	.description('Fill models,localization,styles from html file or images folder')
 	.action((id) => {
+		process.chdir('/Users/y.ukrainets/Projects/Mylan/Australia/prep/');
 		const $ = cheerio.load(getSlideContent(id));
 		let textTags = $('co-text').toArray();
 		let containerTags = $('co-container').toArray();
