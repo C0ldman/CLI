@@ -2,7 +2,10 @@ const chalk = require('chalk'),
 	fs = require('fs'),
 	commander = require('commander'),
 	cheerio = require('cheerio'),
-	gm = require('gm').subClass({imageMagick: true});
+	sizeOf = require('image-size'),
+	gm = require('gm');
+
+function isOdd(num) { return num % 2;}
 
 function getSlidesList() {
 	try {
@@ -129,10 +132,28 @@ function createPopupModels(modelsArray) {
 
 function createImagesModels(id,modelsArray){
 	let models = modelsArray.map((name) => {
-		let model = `\r\n"${name}":\r\n"src": "media/images/${id}/${name}.png"\r\n"position": "center center"\r\n"size": "100% 100%"\r\n}`;
+		let model = `\r\n"${name.toLowerCase()}":\r\n"src": "media/images/${id}/${name}.png"\r\n"position": "center center"\r\n"size": "100% 100%"\r\n}`;
 		return model
 	});
 	return models
+}
+
+function createImagesStyles (id,idArray){
+	let files=getImagesFileList(id);
+	let fileName=files.values();
+	let styles = idArray.map((idname) => {
+		let width, height, name=fileName.next().value;
+		let imageDimension = getImageDimensions(id,name);
+		if(isOdd(imageDimension.width)){
+			gm(`./app/images/${id}/${name}`).resize(`${imageDimension.width+1}`,imageDimension.height, '!')
+		}else{width=imageDimension.width};
+		if(isOdd(imageDimension.height)){
+			gm(`./app/images/${id}/${name}`).resize(imageDimension.width,`${imageDimension.height+1}`, '!')
+		}else{height=imageDimension.height};
+		let style = `\r\n#${idname}  {\r\nwidth:${width/2}px;\r\nheight:${height/2}px;\r\ntransform:matrix(1,0,0,1,0,0)}`;
+		return style
+	});
+	return styles
 }
 
 function getModels(content) {
@@ -140,6 +161,18 @@ function getModels(content) {
 		return tag.attribs.model.slice(2)
 	});
 	return models
+}
+
+function getImagesFileList(id) {
+	let list = fs.readdirSync(`./app/media/images/${id}`,'utf8');
+	return list
+}
+
+function getImagesIds(id){
+	let imageFiles=getImagesFileList(id);
+	return imageFiles.map((name)=>{
+		return name.slice(0,-4)
+	})
 }
 
 function writeStyles(id,data) {
@@ -154,6 +187,10 @@ function writeLocalization(id,data) {
 	let language = JSON.parse(fs.readFileSync("./app/settings/app.json")).lang;
 	let locPath = `./app/i18n/${language}`;
 	fs.appendFileSync(`${locPath}/${id}.json`, data);
+}
+
+function getImageDimensions(id,name){
+	return sizeOf(`./app/media/images/${id}/${name}`)
 }
 
 
@@ -180,6 +217,7 @@ commander
 			// let buttonTags = $('co-button').toArray();
 			let popupTags = $('co-popup').toArray();
 			let imageTags = $('co-image').toArray();
+			let imageFiles = getImagesFileList(id);
 			
 			if (textTags.length) {
 				let textId = getIds(textTags);
@@ -207,13 +245,18 @@ commander
 				writeModels(id, createPopupModels(popupModels));
 			};
 		
+		let imagesFiles=getImagesFileList(id);
+		let imagesId= getImagesIds(id);
+		console.log(createImagesStyles(id,imagesId));
+		
 		
 		if (commander.images) {
-			if (imagesTags.length) {
-				let imagesId = getIds(imagesTags);
-				let imagesModels = getModels(imagesTags);
-				writeStyles(id, createStyles(imagesId));
-				writeModels(id, createImagesModels(id,imagesModels));
+			let imagesFiles=getImagesFileList(id);
+			if (imagesFiles.length) {
+				let imagesId= getImagesIds(id);
+				
+				writeStyles(id, createImagesStyles(id,imagesId));
+				writeModels(id, createImagesModels(id,imagesId));
 			};
 		}
 	});
