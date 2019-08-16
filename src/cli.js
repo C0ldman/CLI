@@ -3,7 +3,10 @@ const chalk = require('chalk'),
 	commander = require('commander'),
 	cheerio = require('cheerio'),
 	sizeOf = require('image-size'),
-	gm = require('gm');
+	gm = require('gm'),
+	imagemin = require('imagemin'),
+	imageminJpegtran = require('imagemin-jpegtran'),
+	imageminPngquant = require('imagemin-pngquant');
 
 function isOdd(num) { return num % 2;}
 
@@ -150,10 +153,18 @@ function createImagesStyles (id,idArray){
 		if(isOdd(imageDimension.height)){
 			gm(`./app/images/${id}/${name}`).resize(imageDimension.width,`${imageDimension.height+1}`, '!')
 		}else{height=imageDimension.height};
-		let style = `\r\n#${idname}  {\r\nwidth:${width/2}px;\r\nheight:${height/2}px;\r\ntransform:matrix(1,0,0,1,0,0)}`;
+		let style = `\r\n#${idname}  {\r\nwidth:${width/2}px;\r\nheight:${height/2}px;\r\ntransform:matrix(1,0,0,1,0,0);}`;
 		return style
 	});
 	return styles
+}
+
+function createImagesHTML(id,imagesIds) {
+	let content = imagesIds.map((name) => {
+		let html = `<co-image id="${name}" class="pa" model="m.${name}" user-label="${name} image"></co-image>`;
+		return html
+	});
+	return content
 }
 
 function getModels(content) {
@@ -171,7 +182,8 @@ function getImagesFileList(id) {
 function getImagesIds(id){
 	let imageFiles=getImagesFileList(id);
 	return imageFiles.map((name)=>{
-		return name.slice(0,-4)
+		let newName= name.charAt(0).toLowerCase() + name.slice(1)
+		return newName.slice(0,-4)
 	})
 }
 
@@ -181,6 +193,10 @@ function writeStyles(id,data) {
 
 function writeModels(id,data) {
 	fs.appendFileSync(`./app/data/models/${id}.json`, data);
+}
+
+function writeHTML(id,data) {
+	fs.appendFileSync(`./app/${id}.html`, data);
 }
 
 function writeLocalization(id,data) {
@@ -193,6 +209,20 @@ function getImageDimensions(id,name){
 	return sizeOf(`./app/media/images/${id}/${name}`)
 }
 
+function compress(id){
+	(async () => {
+		const files = await imagemin([`./app/media/images/${id}/*.{jpg,png}`], {
+			destination: `./app/media/images/${id}`,
+			plugins: [
+				imageminJpegtran(),
+				imageminPngquant({
+					quality: [0.6, 0.8]
+				})
+			]
+		});
+	})();
+}
+
 
 
 
@@ -203,52 +233,52 @@ commander
 	.arguments('<id>')
 	.description('Fill models,localization,styles from html file or images folder')
 	.action((id) => {
-		process.chdir('/Users/y.ukrainets/Projects/Mylan/Australia/prep/');
 		
 		const $ = cheerio.load(getSlideContent(id));
 		
-			
-			let textTags = $('co-text').toArray();
-			let containerTags = $('co-container').toArray();
-			let listTags = $('co-list').toArray();
-			// TODO
-			// let tableTags = $('co-table').toArray();
-			// let graphTags = $('co-bar-graph').toArray();
-			// let buttonTags = $('co-button').toArray();
-			let popupTags = $('co-popup').toArray();
-			let imageTags = $('co-image').toArray();
-			let imageFiles = getImagesFileList(id);
-			
-			if (textTags.length) {
-				let textId = getIds(textTags);
-				let textModels = getModels(textTags);
-				writeStyles(id, createStyles(textId));
-				writeModels(id, createTextModels(textModels));
-				writeLocalization(id, createTextLocalization(textModels));
-			};
-			
-			if (containerTags.length) {
-				let containersId = getIds(containerTags);
-				writeStyles(id, createStyles(containersId));
-			};
-			
-			if (listTags.length) {
-				let listId = getIds(listTags);
-				let listModels = getModels(listTags);
-				writeStyles(id, createStyles(listId));
-				writeModels(id, createListModels(listModels));
-				writeLocalization(id, createListLocalization(listModels));
-			};
-			
-			if (popupTags.length) {
-				let popupModels = getModels(popupTags);
-				writeModels(id, createPopupModels(popupModels));
-			};
+		if (commander.html) {
+		let textTags = $('co-text').toArray();
+		let containerTags = $('co-container').toArray();
+		let listTags = $('co-list').toArray();
+		// TODO
+		// let tableTags = $('co-table').toArray();
+		// let graphTags = $('co-bar-graph').toArray();
+		// let buttonTags = $('co-button').toArray();
+		let popupTags = $('co-popup').toArray();
+		let imageFiles = getImagesFileList(id);
 		
-		let imagesFiles=getImagesFileList(id);
-		let imagesId= getImagesIds(id);
-		console.log(createImagesStyles(id,imagesId));
+		if (textTags.length) {
+			let textId = getIds(textTags);
+			let textModels = getModels(textTags);
+			writeStyles(id, createStyles(textId));
+			writeModels(id, createTextModels(textModels));
+			writeLocalization(id, createTextLocalization(textModels));
+		}
+		;
 		
+		if (containerTags.length) {
+			let containersId = getIds(containerTags);
+			writeStyles(id, createStyles(containersId));
+		}
+		;
+		
+		if (listTags.length) {
+			let listId = getIds(listTags);
+			let listModels = getModels(listTags);
+			writeStyles(id, createStyles(listId));
+			writeModels(id, createListModels(listModels));
+			writeLocalization(id, createListLocalization(listModels));
+		}
+		;
+		
+		if (popupTags.length) {
+			let popupModels = getModels(popupTags);
+			writeModels(id, createPopupModels(popupModels));
+		}
+		;
+		
+		
+	}
 		
 		if (commander.images) {
 			let imagesFiles=getImagesFileList(id);
@@ -257,6 +287,8 @@ commander
 				
 				writeStyles(id, createImagesStyles(id,imagesId));
 				writeModels(id, createImagesModels(id,imagesId));
+				writeHTML(id, createImagesHTML(id,imagesId));
+				compress(id);
 			};
 		}
 	});

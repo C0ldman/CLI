@@ -27,7 +27,10 @@
 		"commander": "^2.2.0",
 		"esm": "^3.2.25",
 		"gm": "^1.23.1",
-		"image-size": "^0.7.4"
+		"image-size": "^0.7.4",
+		"imagemin": "^7.0.0",
+		"imagemin-jpegtran": "^6.0.0",
+		"imagemin-pngquant": "^8.0.0"
 	},
 	"homepage": "https://github.com/C0ldman/CLI#readme"
 }
