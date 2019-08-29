@@ -50,35 +50,35 @@ commander
 				let textModels = getModels(textTags);
 				write(stylesFile, create.cotext.styles(textId));
 				write(modelFile, create.cotext.models(textModels));
-				write(localizationFile, create.cotext.locaization(textModels));
+				write(localizationFile, create.cotext.localizations(textModels));
 			};
 
 			if (containerTags.length) {
 				let containersId = getIds(containerTags);
-				writeStyles(id, create.styles(containersId));
-			}
-			;
+				write(stylesFile, create.cocontainer.styles(containersId));
+			};
 
 			if (listTags.length) {
 				let listId = getIds(listTags);
 				let listModels = getModels(listTags);
-				writeStyles(id, create.styles(listId));
-				writeModels(id, create.listModels(listModels));
-				writeLocalization(id, create.listLocalization(listModels));
+				write(stylesFile, create.colist.styles(listId));
+				write(modelFile, create.colist.models(listModels));
+				write(localizationFile, create.colist.listLocalizations(listModels));
 			};
 
-			if (popupTags.length) {
-				let popupModels = getModels(popupTags);
-				writeModels(id, create.popupModels(popupModels));
-			};
+			// if (popupTags.length) {
+			// 	let popupModels = getModels(popupTags);
+			// 	writeModels(id, create.popupModels(popupModels));
+			// };
 		}
 
 		if (commander.images) {
 			let imagesTags = $('co-image').toArray();
 			let imagesId = getIds(imagesTags);
-			writeStyles(id, create.styles(imagesId));
-			writeModels(id, create.imagesModels(id, imagesId));
+			write(stylesFile, create.coimage.styles(imagesId));
+			write(modelFile, create.coimage.models(id,imagesId));
 		}
+		
 		if (commander.files) {
 			let textTags = $('co-text').toArray();
 			let textId = getIds(textTags);
@@ -87,18 +87,6 @@ commander
 			write(stylesFile, create.cotext.styles(textId));
 			write(modelFile, create.cotext.models(textModels));
 			write(localizationFile, create.cotext.localizations(textModels));
-			// let imagesFiles=getImagesFileList(id);
-			// if (imagesFiles.length) {
-			// 	let imagesId= getImagesIds(id);
-			// 	writeStyles(id, create.imagesStyles(id,imagesId));
-			// 	writeModels(id, create.imagesModels(id,imagesId));
-			// 	writeHTML(id, create.imagesHTML(id,imagesId));
-			// 	compress(id);
-			// };
-			// im.convert(['/Users/y.ukrainets/Projects/Mylan/Australia/prep/app/images/titleSlide/rainbow.png', '-resize', '25x120', '/Users/y.ukrainets/Projects/Mylan/Australia/prep/app/images/titleSlide/rainbow1.png'],function(err, metadata){
-			// 	if (err) throw err;
-			// 	console.log('success! Checkout your new thumb: ');
-			// });
 		}
 });
 
