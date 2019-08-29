@@ -1,8 +1,9 @@
-export function models(modelsArray) {
+export function models(id,modelsArray) {
 	let models = modelsArray.map((name) => {
-		let model = `{name:"${name}",content : "{
-		"list-style": "icon",
-		"items": [
+		let model = {name:"",content:{}};
+		model.name=`${name}`;
+		model.content.listStyle=`icon`;
+		model.content.items= `[
 			{
 			"text": {
 				"html": "t.${name}Text1"
@@ -26,7 +27,7 @@ export function models(modelsArray) {
 					"icon": { "src": "media/images/${id}/bullet3.png"
 					}
 			}
-		]}"}`;
+		]`;
 		return model
 	});
 	return models

@@ -62,7 +62,7 @@ commander
 				let listId = getIds(listTags);
 				let listModels = getModels(listTags);
 				write(stylesFile, create.colist.styles(listId));
-				write(modelFile, create.colist.models(listModels));
+				write(modelFile, create.colist.models(id,listModels));
 				write(localizationFile, create.colist.listLocalizations(listModels));
 			};
 

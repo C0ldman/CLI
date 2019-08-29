@@ -1,7 +1,9 @@
 export function localizations(modelsArray) {
 	let models = modelsArray.map((name) => {
-		let localization = `{name:${name},content:""}`;
-		return localization
+		let model = {name:"",content:{}};
+		model.name=`${name}`;
+		model.content=``;
+		return model
 	});
 	return models
 }
