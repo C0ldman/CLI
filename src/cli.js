@@ -10,8 +10,7 @@ const commander = require('commander'),
 	imageminPngquant = require('imagemin-pngquant');
 
 import {getImageDimensions,getModels,getImagesFileList,getImagesIds,getSlidesList,getSlideContent,getSlideModel,getSlideLocalization,getSlideStyles,getIds} from './getInfo.js';
-// import * as create from './create.js';
-import {write,writeStyles,writeModels,writeHTML,writeLocalization} from './write.js';
+import {write} from './write.js';
 import {isOdd,compress} from './utils.js';
 import * as create from './create/create.js'
 
@@ -49,11 +48,10 @@ commander
 			if (textTags.length) {
 				let textId = getIds(textTags);
 				let textModels = getModels(textTags);
-				writeStyles(id, create.styles(textId));
-				writeModels(id, create.textModels(textModels));
-				writeLocalization(id, create.textLocalization(textModels));
-			}
-			;
+				write(stylesFile, create.cotext.styles(textId));
+				write(modelFile, create.cotext.models(textModels));
+				write(localizationFile, create.cotext.locaization(textModels));
+			};
 
 			if (containerTags.length) {
 				let containersId = getIds(containerTags);
@@ -84,8 +82,11 @@ commander
 		if (commander.files) {
 			let textTags = $('co-text').toArray();
 			let textId = getIds(textTags);
+			let textModels = getModels(textTags);
 			
-			console.log(create.cotext.models(textId));
+			write(stylesFile, create.cotext.styles(textId));
+			write(modelFile, create.cotext.models(textModels));
+			write(localizationFile, create.cotext.localizations(textModels));
 			// let imagesFiles=getImagesFileList(id);
 			// if (imagesFiles.length) {
 			// 	let imagesId= getImagesIds(id);

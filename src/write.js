@@ -1,4 +1,5 @@
-const fs = require('fs');
+const fs = require('fs'),
+	chalk = require('chalk');
 
 
 	
@@ -28,13 +29,12 @@ export function write(path, data) {
 			file[element.name] = element.content;
 		});
 		let jsonString = JSON.stringify(file);
-		fs.writeFileSync(path, jsonString, err => {
+		fs.writeFileSync(path, jsonString, (err) => {
 			if (err) {
 				console.log(`Error writing file ${path}`, err)
-			} else {
-				console.log(chalk.green(`Successfully wrote file ${path}`))
 			}
-		})
+		});
+		console.log(chalk.hex('#28FE14')(`Successfully wrote file ${path}`));
 	} else {
 		data.forEach((element) => {
 			fs.appendFileSync(path, element, err => {
@@ -43,6 +43,6 @@ export function write(path, data) {
 				}
 			});
 		});
-		console.log(chalk.green(`Successfully wrote file ${path}`));
+		console.log(chalk.hex('#28FE14')(`Successfully wrote file ${path}`));
 	}
 }
