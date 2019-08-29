@@ -42,7 +42,7 @@ commander
 			// let tableTags = $('co-table').toArray();
 			// let graphTags = $('co-bar-graph').toArray();
 			// let buttonTags = $('co-button').toArray();
-			let popupTags = $('co-popup').toArray();
+			// let popupTags = $('co-popup').toArray();
 			
 
 			if (textTags.length) {
