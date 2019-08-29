@@ -1,6 +1,6 @@
 
 
-export function createStyles(idArray) {
+export function styles(idArray) {
 	let styles = idArray.map((id) => {
 		let style = `\r\n#${id} {
 		width:100px;
@@ -11,17 +11,15 @@ export function createStyles(idArray) {
 	return styles
 }
 
-export function createTextModels(modelsArray) {
+export function textModels(modelsArray) {
 	let models = modelsArray.map((name) => {
-		let model = `\r\n"${name}": {
-						"html": "t.${name}"
-						}`;
+		let model = `"${name}": {"html": "t.${name}"}`;
 		return model
 	});
 	return models
 }
 
-export function createTextLocalization(modelsArray) {
+export function textLocalization(modelsArray) {
 	let models = modelsArray.map((name) => {
 		let localization = `\r\n"${name}": ""`;
 		return localization
@@ -29,7 +27,7 @@ export function createTextLocalization(modelsArray) {
 	return models
 }
 
-export function createListModels(modelsArray) {
+export function listModels(modelsArray) {
 	let models = modelsArray.map((name) => {
 		let model = `\r\n"${name}": {
 		"list-style": "icon",
@@ -63,7 +61,7 @@ export function createListModels(modelsArray) {
 	return models
 }
 
-export function createListLocalization(modelsArray) {
+export function listLocalization(modelsArray) {
 	let models = modelsArray.map((name) => {
 		let localization = `\r\n"${name}Text1": "",
 		"${name}Text2": "",
@@ -73,7 +71,7 @@ export function createListLocalization(modelsArray) {
 	return models
 }
 
-export function createPopupModels(modelsArray) {
+export function popupModels(modelsArray) {
 	let models = modelsArray.map((name) => {
 		let model = `\r\n"${name}": {
 		"id": "${name}",
@@ -87,7 +85,7 @@ export function createPopupModels(modelsArray) {
 	return models
 }
 
-export function createImagesModels(id,modelsArray){
+export function imagesModels(id,modelsArray){
 	let models = modelsArray.map((name) => {
 		let model = `\r\n"${name}":{
 			"src": "media/images/${id}/${name}.png",
@@ -99,7 +97,7 @@ export function createImagesModels(id,modelsArray){
 	return models
 }
 
-export function createImagesStyles (id,idArray){
+export function imagesStyles (id,idArray){
 	let files=getImagesFileList(id);
 	let fileName=files.values();
 	let styles = idArray.map((idname) => {
@@ -125,10 +123,12 @@ export function createImagesStyles (id,idArray){
 	return styles
 }
 
-export function createImagesHTML(id,imagesIds) {
+export function imagesHTML(id,imagesIds) {
 	let content = imagesIds.map((name) => {
 		let html = `<co-image id="${name}" class="pa" model="m.${name}" user-label="${name} image"></co-image>`;
 		return html
 	});
 	return content
 }
+
+
