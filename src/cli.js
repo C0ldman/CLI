@@ -9,9 +9,9 @@ const commander = require('commander'),
 	imageminJpegtran = require('imagemin-jpegtran'),
 	imageminPngquant = require('imagemin-pngquant');
 
-import {getImageDimensions,getModels,getImagesFileList,getImagesIds,getSlidesList,getSlideContent,getSlideModel,getSlideLocalization,getSlideStyles,getIds} from './getInfo.js';
-import {write} from './write.js';
-import {isOdd,compress} from './utils.js';
+import { getImageDimensions, getModels, getImagesFileList, getImagesIds, getSlidesList, getSlideContent, getSlideModel, getSlideLocalization, getSlideStyles, getIds } from './getInfo.js';
+import { write } from './write.js';
+import { isOdd, compress } from './utils.js';
 import * as create from './create/create.js'
 
 
@@ -25,7 +25,8 @@ commander
 	.arguments('<id>')
 	.description('Fill models,localization,styles from html file or images folder')
 	.action((id) => {
-		process.chdir('/Users/y.ukrainets/Projects/Mylan/Australia/prep');
+		// process.chdir('/Users/y.ukrainets/Projects/Mylan/Australia/prep');
+		process.chdir('/home/yuriy/Documents/Projects/presentations/prep/');
 		const $ = cheerio.load(getSlideContent(id)),
 			stylesFile = `./app/styles/${id}.css`,
 			modelFile = `./app/data/models/${id}.json`,
@@ -43,7 +44,7 @@ commander
 			// let graphTags = $('co-bar-graph').toArray();
 			// let buttonTags = $('co-button').toArray();
 			// let popupTags = $('co-popup').toArray();
-			
+
 
 			if (textTags.length) {
 				let textId = getIds(textTags);
@@ -62,7 +63,7 @@ commander
 				let listId = getIds(listTags);
 				let listModels = getModels(listTags);
 				write(stylesFile, create.colist.styles(listId));
-				write(modelFile, create.colist.models(id,listModels));
+				write(modelFile, create.colist.models(id, listModels));
 				write(localizationFile, create.colist.listLocalizations(listModels));
 			};
 
@@ -76,19 +77,18 @@ commander
 			let imagesTags = $('co-image').toArray();
 			let imagesId = getIds(imagesTags);
 			write(stylesFile, create.coimage.styles(imagesId));
-			write(modelFile, create.coimage.models(id,imagesId));
+			write(modelFile, create.coimage.models(id, imagesId));
 		}
-		
+
 		if (commander.files) {
-			let textTags = $('co-text').toArray();
-			let textId = getIds(textTags);
-			let textModels = getModels(textTags);
+
+			let tags = cheerio.load($('article').html());
+			// tags.forEach((element) => {
+			// 	console.log(element);
+			// })
 			
-			write(stylesFile, create.cotext.styles(textId));
-			write(modelFile, create.cotext.models(textModels));
-			write(localizationFile, create.cotext.localizations(textModels));
 		}
-});
+	});
 
 export function cli(args) {
 	commander.parse(args)
