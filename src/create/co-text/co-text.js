@@ -1,4 +1,4 @@
-export function localizations(modelsArray) {
+export function localization(modelsArray) {
     let models = modelsArray.map((name) => {
         let model = { name: "", content: {} };
         model.name = `${name}`;
@@ -8,7 +8,7 @@ export function localizations(modelsArray) {
     return models
 }
 
-export function models(modelsArray) {
+export function model(modelsArray) {
     let models = modelsArray.map((name) => {
         let model = { name: "", content: {} };
         model.name = `${name}`;
@@ -18,7 +18,7 @@ export function models(modelsArray) {
     return models
 }
 
-export function styles(idArray) {
+export function style(idArray) {
     let styles = idArray.map((id) => {
         let style = `\r\n#${id} {
 		width:100px;

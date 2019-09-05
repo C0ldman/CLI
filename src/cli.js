@@ -1,19 +1,16 @@
 const commander = require('commander'),
 	fs = require('fs'),
 	cheerio = require('cheerio'),
-	sizeOf = require('image-size'),
-	gm = require('gm'),
-	im = require('imagemagick'),
+	// sizeOf = require('image-size'),
 	path = require('path'),
 	imagemin = require('imagemin'),
 	imageminJpegtran = require('imagemin-jpegtran'),
 	imageminPngquant = require('imagemin-pngquant');
 
-import { getImageDimensions, getModels, getImagesFileList, getImagesIds, getSlidesList, getSlideContent, getSlideModel, getSlideLocalization, getSlideStyles, getIds } from './getInfo.js';
+import * as get from './getInfo.js';
 import { write } from './write.js';
 import { isOdd, compress } from './utils.js';
 import * as create from './create/create.js'
-
 
 
 
@@ -27,7 +24,7 @@ commander
 	.action((id) => {
 		// process.chdir('/Users/y.ukrainets/Projects/Mylan/Australia/prep');
 		process.chdir('/home/yuriy/Documents/Projects/presentations/prep/');
-		const $ = cheerio.load(getSlideContent(id)),
+		const $ = cheerio.load(get.slideContent(id)),
 			stylesFile = `./app/styles/${id}.css`,
 			modelFile = `./app/data/models/${id}.json`,
 			htmlFile = `./app/${id}.html`,
@@ -47,46 +44,52 @@ commander
 
 
 			if (textTags.length) {
-				let textId = getIds(textTags);
-				let textModels = getModels(textTags);
+				let textId = get.ids(textTags);
+				let textModels = get.models(textTags);
 				write(stylesFile, create.cotext.styles(textId));
 				write(modelFile, create.cotext.models(textModels));
 				write(localizationFile, create.cotext.localizations(textModels));
 			};
 
 			if (containerTags.length) {
-				let containersId = getIds(containerTags);
+				let containersId = get.ids(containerTags);
 				write(stylesFile, create.cocontainer.styles(containersId));
 			};
 
 			if (listTags.length) {
-				let listId = getIds(listTags);
-				let listModels = getModels(listTags);
+				let listId = get.ids(listTags);
+				let listModels = get.models(listTags);
 				write(stylesFile, create.colist.styles(listId));
 				write(modelFile, create.colist.models(id, listModels));
 				write(localizationFile, create.colist.listLocalizations(listModels));
 			};
 
 			// if (popupTags.length) {
-			// 	let popupModels = getModels(popupTags);
+			// 	let popupModels = get.models(popupTags);
 			// 	writeModels(id, create.popupModels(popupModels));
 			// };
 		}
 
 		if (commander.images) {
 			let imagesTags = $('co-image').toArray();
-			let imagesId = getIds(imagesTags);
+			let imagesId = get.ids(imagesTags);
 			write(stylesFile, create.coimage.styles(imagesId));
 			write(modelFile, create.coimage.models(id, imagesId));
 		}
 
 		if (commander.files) {
 
-			let tags = cheerio.load($('article').html());
-			// tags.forEach((element) => {
-			// 	console.log(element);
-			// })
-			
+			let tags = get.allTags(id);
+
+			tags.forEach((element) => {
+				let tag = element.name.split('-').join('');
+				if (create[tag]) {
+					if (create[tag].localization) { };
+					if (create[tag].style) {  };
+					if (create[tag].model) {  };
+				}
+			})
+
 		}
 	});
 

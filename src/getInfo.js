@@ -1,30 +1,41 @@
 const chalk = require('chalk'),
+	cheerio = require('cheerio'),
 	fs = require('fs');
-export function getImageDimensions(id,name){
+
+export function allTags(id) {
+	let tags = [];
+	let $ = cheerio.load(slideContent(id));
+	$('article').find('*').each((i, elem) => {
+		tags.push(elem)
+	});
+	return tags
+}
+
+export function imageDimensions(id, name) {
 	return sizeOf(`./app/media/images/${id}/${name}`)
 }
 
-export function getModels(content) {
+export function models(content) {
 	let models = content.map((tag) => {
 		return tag.attribs.model.slice(2)
 	});
 	return models
 }
 
-export function getImagesFileList(id) {
-	let list = fs.readdirSync(`./app/media/images/${id}`,'utf8');
+export function imagesFileList(id) {
+	let list = fs.readdirSync(`./app/media/images/${id}`, 'utf8');
 	return list
 }
 
-export function getImagesIds(id){
-	let imageFiles=getImagesFileList(id);
-	return imageFiles.map((name)=>{
-		let newName= name.charAt(0).toLowerCase() + name.slice(1)
-		return newName.slice(0,-4)
+export function imagesIds(id) {
+	let imageFiles = imagesFileList(id);
+	return imageFiles.map((name) => {
+		let newName = name.charAt(0).toLowerCase() + name.slice(1)
+		return newName.slice(0, -4)
 	})
 }
 
-export function getSlidesList() {
+export function slidesList() {
 	try {
 		let content = JSON.parse(fs.readFileSync("structure.json"));
 		let slides = [];
@@ -37,62 +48,19 @@ export function getSlidesList() {
 	}
 };
 
-export function getSlideContent(id) {
+export function slideContent(id) {
 	try {
-		if (getSlidesList().includes(id)) {
+		if (slidesList().includes(id)) {
 			let content = fs.readFileSync(`./app/${id}.html`, 'utf8');
 			return content
 		} else {
-			throw new Error('No such slide ID');
+			throw new Error(`No such slide ID ${id}`);
 		};
 	} catch (err) {
 		console.error(chalk.red(`getSlideContent: ${err}`));
 	}
 };
-
-export function getSlideModel(id) {
-	try {
-		if (getSlidesList().includes(id)) {
-			let content = JSON.parse(fs.readFileSync(`./app/data/models/${id}.json`));
-			return content
-		} else {
-			throw new Error('No such slide ID');
-		}
-	} catch (err) {
-		console.error(chalk.red(`getSlideModel: ${err}`));
-	}
-};
-
-export function getSlideLocalization(id) {
-	try {
-		let language = JSON.parse(fs.readFileSync("./app/settings/app.json")).lang;
-		let locPath = `./app/i18n/${language}`;
-		if (getSlidesList().includes(id)) {
-			let content = JSON.parse(fs.readFileSync(`${locPath}/${id}.json`));
-			return content
-		} else {
-			throw new Error('No such slide ID');
-		}
-	} catch (err) {
-		console.error(chalk.red(`getSlideLocalization: ${err}`));
-	}
-};
-
-export function getSlideStyles(id) {
-	try {
-		if (getSlidesList().includes(id)) {
-			process.chdir('./app/styles');
-			let content = fs.readFileSync(`./app/styles/${id}.css`);
-			return content
-		} else {
-			throw new Error('No such slide ID');
-		}
-	} catch (err) {
-		console.error(chalk.red(`getSlideStyles: ${err}`));
-	}
-};
-
-export function getIds(content) {
+export function ids(content) {
 	let ids = content.map((tag) => {
 		return tag.attribs.id
 	});

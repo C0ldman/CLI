@@ -6,7 +6,7 @@ export function html(imagesIds) {
     return content
 }
 
-export function models(id, modelsArray) {
+export function model(id, modelsArray) {
     let models = modelsArray.map((name) => {
         let model = { name: "", content: {} };
         model.name = `${name}`;
@@ -18,7 +18,7 @@ export function models(id, modelsArray) {
     return models
 }
 
-export function styles(idArray) {
+export function style(idArray) {
     let styles = idArray.map((id) => {
         let style = `\r\n#${id} {
 		width:100px;

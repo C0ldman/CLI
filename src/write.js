@@ -5,7 +5,6 @@ export function write(path, data) {
 	if (path.slice(-4) == 'json') {
 		let file = JSON.parse(fs.readFileSync(path));
 		data.forEach((element) => {
-			console.log(element);
 			file[element.name] = element.content;
 		});
 		let jsonString = JSON.stringify(file);

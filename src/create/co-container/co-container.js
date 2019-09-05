@@ -1,4 +1,4 @@
-export function styles(idArray) {
+export function style(idArray) {
     let styles = idArray.map((id) => {
         let style = `\r\n#${id} {
 		width:100px;
