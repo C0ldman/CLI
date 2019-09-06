@@ -1,3 +1,5 @@
+const sharp = require('sharp')
+
 export function isOdd(num) { return num % 2;}
 
 export function compress(id){
@@ -13,3 +15,7 @@ export function compress(id){
 		});
 	})();
 }
+
+sharp('PrepPill.png')
+    .resize({ width: 940, height: 502 })
+    .toFile('PrepPill.png');

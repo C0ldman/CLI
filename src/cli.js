@@ -51,20 +51,12 @@ commander
 					if (create[tag].model && model) {
 						write(modelFile, create[tag].model(id, model));
 					};
-					
+
 				}
 			})
 		}
 
-		if (commander.images) {
-
-		}
-
-		if (commander.files) {
-
-
-
-		}
+		if (commander.files) {}
 	});
 
 export function cli(args) {

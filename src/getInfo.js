@@ -15,13 +15,6 @@ export function imageDimensions(id, name) {
 	return sizeOf(`./app/media/images/${id}/${name}`)
 }
 
-export function models(content) {
-	let models = content.map((tag) => {
-		return tag.attribs.model.slice(2)
-	});
-	return models
-}
-
 export function imagesFileList(id) {
 	let list = fs.readdirSync(`./app/media/images/${id}`, 'utf8');
 	return list
@@ -60,9 +53,3 @@ export function slideContent(id) {
 		console.error(chalk.red(`getSlideContent: ${err}`));
 	}
 };
-export function ids(content) {
-	let ids = content.map((tag) => {
-		return tag.attribs.id
-	});
-	return ids
-}
