@@ -1,30 +1,21 @@
-export function localization(modelsArray) {
-    let models = modelsArray.map((name) => {
+export function localization(modelName) {
         let model = { name: "", content: {} };
-        model.name = `${name}`;
+        model.name = `${modelName}`;
         model.content = ``;
         return model
-    });
-    return models
 }
 
-export function model(modelsArray) {
-    let models = modelsArray.map((name) => {
+export function model(modelName) {
         let model = { name: "", content: {} };
-        model.name = `${name}`;
-        model.content.html = `t.${name}`;
+        model.name = `${modelName}`;
+        model.content.html = `t.${modelName}`;
         return model
-    });
-    return models
 }
 
-export function style(idArray) {
-    let styles = idArray.map((id) => {
-        let style = `\r\n#${id} {
-		width:100px;
-		height:100px;
+export function style(elementId) {
+    let style = `\r\n#${elementId} {
+		width:150px;
+		height:30px;
 		transform:matrix(1,0,0,1,0,0)}`;
         return style
-    });
-    return styles
 }

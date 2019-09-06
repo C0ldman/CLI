@@ -1,30 +1,21 @@
-export function html(imagesIds) {
-    let content = imagesIds.map((name) => {
-        let html = `<co-image id="${name}" class="pa" model="m.${name}" user-label="${name} image"></co-image>`;
+export function html(elementId) {
+    let html = `<co-image id="${elementId}" class="pa" model="m.${elementId}" user-label="${elementId} image"></co-image>`;
         return html
-    });
-    return content
 }
 
-export function model(id, modelsArray) {
-    let models = modelsArray.map((name) => {
+export function model(id,modelName) {
         let model = { name: "", content: {} };
-        model.name = `${name}`;
-        model.content.src = `media/images/${id}/${name}.png`;
+        model.name = `${modelName}`;
+        model.content.src = `media/images/${id}/${modelName}.png`;
         model.content.position = "center center";
         model.content.size = "contain";
         return model
-    });
-    return models
 }
 
-export function style(idArray) {
-    let styles = idArray.map((id) => {
-        let style = `\r\n#${id} {
-		width:100px;
-		height:100px;
-		transform:matrix(1,0,0,1,0,0)}`;
+export function style(elementId) {
+        let style = `\r\n#${elementId} {
+	width:100px;
+	height:100px;
+	transform:matrix(1,0,0,1,0,0);}`;
         return style
-    });
-    return styles
 }

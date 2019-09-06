@@ -33,62 +33,36 @@ commander
 
 
 		if (commander.html) {
-			let textTags = $('co-text').toArray();
-			let containerTags = $('co-container').toArray();
-			let listTags = $('co-list').toArray();
-			// TODO
-			// let tableTags = $('co-table').toArray();
-			// let graphTags = $('co-bar-graph').toArray();
-			// let buttonTags = $('co-button').toArray();
-			// let popupTags = $('co-popup').toArray();
-
-
-			if (textTags.length) {
-				let textId = get.ids(textTags);
-				let textModels = get.models(textTags);
-				write(stylesFile, create.cotext.styles(textId));
-				write(modelFile, create.cotext.models(textModels));
-				write(localizationFile, create.cotext.localizations(textModels));
-			};
-
-			if (containerTags.length) {
-				let containersId = get.ids(containerTags);
-				write(stylesFile, create.cocontainer.styles(containersId));
-			};
-
-			if (listTags.length) {
-				let listId = get.ids(listTags);
-				let listModels = get.models(listTags);
-				write(stylesFile, create.colist.styles(listId));
-				write(modelFile, create.colist.models(id, listModels));
-				write(localizationFile, create.colist.listLocalizations(listModels));
-			};
-
-			// if (popupTags.length) {
-			// 	let popupModels = get.models(popupTags);
-			// 	writeModels(id, create.popupModels(popupModels));
-			// };
-		}
-
-		if (commander.images) {
-			let imagesTags = $('co-image').toArray();
-			let imagesId = get.ids(imagesTags);
-			write(stylesFile, create.coimage.styles(imagesId));
-			write(modelFile, create.coimage.models(id, imagesId));
-		}
-
-		if (commander.files) {
-
 			let tags = get.allTags(id);
 
 			tags.forEach((element) => {
 				let tag = element.name.split('-').join('');
+				let model;
+				element.attribs.model ? model = element.attribs.model.slice(2) : model = '';
+				if (tag == 'coimage' && !commander.images) { return }
 				if (create[tag]) {
-					if (create[tag].localization) { };
-					if (create[tag].style) {  };
-					if (create[tag].model) {  };
+
+					if (create[tag].localization && model) {
+						write(localizationFile, create[tag].localization(model));
+					};
+					if (create[tag].style && element.attribs.id) {
+						write(stylesFile, create[tag].style(element.attribs.id));
+					};
+					if (create[tag].model && model) {
+						write(modelFile, create[tag].model(id, model));
+					};
+					
 				}
 			})
+		}
+
+		if (commander.images) {
+
+		}
+
+		if (commander.files) {
+
+
 
 		}
 	});
