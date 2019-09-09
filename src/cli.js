@@ -19,6 +19,8 @@ commander
 	.option('-h --html', 'Slide ID to add model,localization,styles from HTML')
 	.option('-i --images', 'Slide ID to add model,localization,styles for images from HTML')
 	.option('-f --files', 'Slide ID to fill with co-image HTML,model and styles from images folder')
+	.option('-s --size', 'Do not make half size of images in styles')
+	.option('-c --compress', 'Do not compress images')
 	.arguments('<id>')
 	.description('Fill models,localization,styles from html file or images folder')
 	.action((id) => {
@@ -56,7 +58,9 @@ commander
 			})
 		}
 
-		if (commander.files) {}
+		if (commander.files) {
+
+		}
 	});
 
 export function cli(args) {
