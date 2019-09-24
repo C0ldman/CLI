@@ -59,10 +59,14 @@ commander
 			let imagesList = get.imagesFileList(id);
 
 			imagesList.forEach((name) => {
-				image.checkDimensions(id, name);
-				// if(!commander.compress){
-				// 	image.compress(id);
-				// }
+				// image.checkDimensions(id, name);
+				if (!commander.compress) {
+					image.checkDimensions(id, name)
+						.then(() => {
+							image.compress(id, name)
+						})
+
+				}
 
 			});
 

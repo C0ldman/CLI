@@ -8,18 +8,19 @@ const sharp = require('sharp'),
 
 export function isOdd(num) { return num % 2; }
 
-export function compress(id) {
-	(async () => {
-		const files = await imagemin([`./app/media/images/${id}/*.{jpg,png}`], {
-			destination: `./app/media/images/${id}`,
-			plugins: [
-				imageminJpegtran(),
-				imageminPngquant({
-					quality: [0.6, 0.8]
-				})
-			]
-		});
-	})();
+export function compress(id, name = `*.{jpg,png}`) {
+	let path = `./app/media/images/${id}/${name}`
+		(async () => {
+			const files = await imagemin([path], {
+				destination: `./app/media/images/${id}`,
+				plugins: [
+					imageminJpegtran(),
+					imageminPngquant({
+						quality: [0.6, 0.8]
+					})
+				]
+			});
+		})();
 }
 
 export function checkDimensions(id, name) {
@@ -78,6 +79,7 @@ export function checkDimensions(id, name) {
 						});
 						resolve();
 					}
+					resolve();
 				})
 			});
 		})
@@ -87,7 +89,9 @@ export function checkDimensions(id, name) {
 					fs.rename(`./app/media/images/${id}/${name}temp`, `./app/media/images/${id}/${name}`, (err) => {
 						if (err) throw err;
 					});
+					return resolve()
 				}
+				return resolve()
 			})
 
 		})
