@@ -11,9 +11,7 @@ export function allTags(id) {
 	return tags
 }
 
-export function imageDimensions(id, name) {
-	return sizeOf(`./app/media/images/${id}/${name}`)
-}
+
 
 export function imagesFileList(id) {
 	let list = fs.readdirSync(`./app/media/images/${id}`, 'utf8');

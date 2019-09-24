@@ -9,7 +9,7 @@ const commander = require('commander'),
 
 import * as get from './getInfo.js';
 import { write } from './write.js';
-import { isOdd, compress } from './utils.js';
+import * as image from './utils.js';
 import * as create from './create/create.js'
 
 
@@ -58,7 +58,11 @@ commander
 			})
 		}
 
-		if (commander.files) {}
+		if (commander.files) {
+			let imagesList = get.imagesFileList(id);
+
+			image.checkDimensions(id, imagesList[1]);
+		}
 	});
 
 export function cli(args) {
