@@ -1,11 +1,8 @@
 const commander = require('commander'),
 	fs = require('fs'),
 	cheerio = require('cheerio'),
-	// sizeOf = require('image-size'),
-	path = require('path'),
-	imagemin = require('imagemin'),
-	imageminJpegtran = require('imagemin-jpegtran'),
-	imageminPngquant = require('imagemin-pngquant');
+	path = require('path');
+
 
 import * as get from './getInfo.js';
 import { write } from './write.js';
@@ -61,7 +58,15 @@ commander
 		if (commander.files) {
 			let imagesList = get.imagesFileList(id);
 
-			image.checkDimensions(id, imagesList[1]);
+			imagesList.forEach((name) => {
+				image.checkDimensions(id, name);
+				// if(!commander.compress){
+				// 	image.compress(id);
+				// }
+
+			});
+
+
 		}
 	});
 

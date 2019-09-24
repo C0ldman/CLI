@@ -12,10 +12,10 @@ export function model(id,modelName) {
         return model
 }
 
-export function style(elementId) {
+export function style(elementId,width='100px',height='100px') {
         let style = `\r\n#${elementId} {
-	width:100px;
-	height:100px;
+	width:${width};
+	height:${height};
 	transform:matrix(1,0,0,1,0,0);}`;
         return style
 }
