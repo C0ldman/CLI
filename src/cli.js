@@ -21,7 +21,7 @@ commander
 	.arguments('<id>')
 	.description('Fill models,localization,styles from html file or images folder')
 	.action((id) => {
-		process.chdir('/Users/y.ukrainets/Projects/Mylan/Australia/prep');
+		// process.chdir('/Users/y.ukrainets/Projects/Mylan/Australia/prep');
 		// process.chdir('/home/yuriy/Documents/Projects/presentations/prep/');
 		const $ = cheerio.load(get.slideContent(id)),
 			stylesFile = `./app/styles/${id}.css`,
