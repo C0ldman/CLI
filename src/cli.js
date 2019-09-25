@@ -17,12 +17,12 @@ commander
 	.option('-i --images', 'Slide ID to add model,localization,styles for images from HTML')
 	.option('-f --files', 'Slide ID to fill with co-image HTML,model and styles from images folder')
 	.option('-s --size', 'Do not make half size of images in styles')
-	.option('-c --compress', 'Do not compress images')
+	.option('-c --compress', 'Compress images')
 	.arguments('<id>')
 	.description('Fill models,localization,styles from html file or images folder')
 	.action((id) => {
-		// process.chdir('/Users/y.ukrainets/Projects/Mylan/Australia/prep');
-		process.chdir('/home/yuriy/Documents/Projects/presentations/prep/');
+		process.chdir('/Users/y.ukrainets/Projects/Mylan/Australia/prep');
+		// process.chdir('/home/yuriy/Documents/Projects/presentations/prep/');
 		const $ = cheerio.load(get.slideContent(id)),
 			stylesFile = `./app/styles/${id}.css`,
 			modelFile = `./app/data/models/${id}.json`,
@@ -59,15 +59,16 @@ commander
 			let imagesList = get.imagesFileList(id);
 
 			imagesList.forEach((name) => {
-				// image.checkDimensions(id, name);
-				if (!commander.compress) {
-					image.checkDimensions(id, name)
-						.then(() => {
-							image.compress(id, name)
-						})
-
+				let model = name.slice(0,-4);
+				console.log(model);
+				image.checkDimensions(id, name);
+				if (commander.compress) {
+					image.compress(id, name);
 				}
-
+				write(modelFile, create.coimage.model(id, model));
+				write(htmlFile, create.coimage.html(model));
+				write(stylesFile, create.coimage.style(model));
+				
 			});
 
 
