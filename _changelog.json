@@ -19,6 +19,16 @@
           "message": ""
         }
       ]
+    },
+    {
+      "version": "1.0.4",
+      "date": "2019.10.25",
+      "messages": [
+        {
+          "type": "fix",
+          "message": ""
+        }
+      ]
     }
   ]
 }
