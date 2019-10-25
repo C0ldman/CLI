@@ -26,10 +26,21 @@ export function compress(id, name) {
 		})();
 }
 
-export function checkDimensions(id, name) {
+export function getDimensions(id,name){
+	let image = sharp(`./app/media/images/${id}/${name}`);
+	
+	image.metadata()
+		.then((metadata) => {
+			let changeWidth = metadata.width;
+			let changeHeight = metadata.height;
+			return changeWidth
+		})
+}
 
+export function updateDimensions(id, name) {
+	return new Promise((resolve, reject) => {
 		let image = sharp(`./app/media/images/${id}/${name}`);
-	console.log(`./app/media/images/${id}/${name}`);
+		
 		image.metadata()
 			.then((metadata) => {
 				let changeWidth = isOdd(metadata.width);
@@ -91,14 +102,22 @@ export function checkDimensions(id, name) {
 				});
 			})
 			.then(() => {
-				fs.access(`./app/media/images/${id}/${name}temp`, fs.constants.F_OK, (err) => {
-					if (!err) {
-						fs.rename(`./app/media/images/${id}/${name}temp`, `./app/media/images/${id}/${name}`, (err) => {
-							if (err) throw err;
-						});
-					}
-				})
-				
-			})
+				return new Promise((resolve, reject) => {
+					fs.access(`./app/media/images/${id}/${name}temp`, fs.constants.F_OK, (err) => {
+						if (!err) {
+							fs.rename(`./app/media/images/${id}/${name}temp`, `./app/media/images/${id}/${name}`, (err) => {
+								if (err) {
+									throw err;
+									return reject()
+								}
+							});
+						}
+					})
+					
+					resolve();
+				});
+			});
+		return resolve;
+	})
 	
 }

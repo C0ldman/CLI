@@ -1,3 +1,5 @@
+import {compress} from "./utils";
+
 const commander = require('commander'),
 	fs = require('fs'),
 	cheerio = require('cheerio'),
@@ -60,11 +62,13 @@ commander
 
 			imagesList.forEach((name) => {
 				let model = name.slice(0,-4);
-				console.log(model);
-				image.checkDimensions(id, name);
-				if (commander.compress) {
-					image.compress(id, name);
-				}
+				console.log(image.getDimensions(id,name));
+				image.updateDimensions(id, name)
+					.then(()=>{
+					if (commander.compress){
+						compress(id,name)
+					}
+				});
 				write(modelFile, create.coimage.model(id, model));
 				write(htmlFile, create.coimage.html(model));
 				write(stylesFile, create.coimage.style(model));
