@@ -10,37 +10,32 @@ export function isOdd(num) { return num % 2; }
 
 export function compress(id, name) {
 	name ? undefined : name = `*.{jpg,png}`;
-	let file=[];
-		file.push(`./app/media/images/${id}/${name}`);
-		console.log(file);
-		(async () => {
-			const files = await imagemin(file, {
-				destination: `./app/media/images/${id}`,
-				plugins: [
-					imageminJpegtran(),
-					imageminPngquant({
-						quality: [0.6, 0.8]
-					})
-				]
-			});
-		})();
+	let file = [];
+	file.push(`./app/media/images/${id}/${name}`);
+	console.log(file);
+	(async () => {
+		const files = await imagemin(file, {
+			destination: `./app/media/images/${id}`,
+			plugins: [
+				imageminJpegtran(),
+				imageminPngquant({
+					quality: [0.6, 0.8]
+				})
+			]
+		});
+	})();
 }
 
-export function getDimensions(id,name){
+export function getImage(id, name) {
 	let image = sharp(`./app/media/images/${id}/${name}`);
-	
-	image.metadata()
-		.then((metadata) => {
-			let changeWidth = metadata.width;
-			let changeHeight = metadata.height;
-			return changeWidth
-		})
+
+	return image.metadata()
 }
 
 export function updateDimensions(id, name) {
 	return new Promise((resolve, reject) => {
 		let image = sharp(`./app/media/images/${id}/${name}`);
-		
+
 		image.metadata()
 			.then((metadata) => {
 				let changeWidth = isOdd(metadata.width);
@@ -52,7 +47,7 @@ export function updateDimensions(id, name) {
 							bottom: 1,
 							right: 1,
 							left: 0,
-							background: {r: 0, g: 0, b: 0, alpha: 0}
+							background: { r: 0, g: 0, b: 0, alpha: 0 }
 						})
 						.toFile(`./app/media/images/${id}/${name}temp`)
 				}
@@ -64,7 +59,7 @@ export function updateDimensions(id, name) {
 							bottom: 0,
 							right: 1,
 							left: 0,
-							background: {r: 0, g: 0, b: 0, alpha: 0}
+							background: { r: 0, g: 0, b: 0, alpha: 0 }
 						})
 						.toFile(`./app/media/images/${id}/${name}temp`)
 				}
@@ -76,7 +71,7 @@ export function updateDimensions(id, name) {
 							bottom: 1,
 							right: 0,
 							left: 0,
-							background: {r: 0, g: 0, b: 0, alpha: 0}
+							background: { r: 0, g: 0, b: 0, alpha: 0 }
 						})
 						.toFile(`./app/media/images/${id}/${name}temp`)
 				}
@@ -113,11 +108,11 @@ export function updateDimensions(id, name) {
 							});
 						}
 					})
-					
+
 					resolve();
 				});
 			});
 		return resolve;
 	})
-	
+
 }

@@ -1,4 +1,4 @@
-import {compress} from "./utils";
+import { compress } from "./utils";
 
 const commander = require('commander'),
 	fs = require('fs'),
@@ -61,18 +61,21 @@ commander
 			let imagesList = get.imagesFileList(id);
 
 			imagesList.forEach((name) => {
-				let model = name.slice(0,-4);
-				console.log(image.getDimensions(id,name));
+				let model = name.slice(0, -4);
 				image.updateDimensions(id, name)
-					.then(()=>{
-					if (commander.compress){
-						compress(id,name)
-					}
-				});
-				write(modelFile, create.coimage.model(id, model));
-				write(htmlFile, create.coimage.html(model));
-				write(stylesFile, create.coimage.style(model));
-				
+					.then(() => {
+						if (commander.compress) {
+							compress(id, name)
+						}
+					});
+				image.getImage(id, name)
+					.then((img) => {
+						write(modelFile, create.coimage.model(id, model));
+						write(htmlFile, create.coimage.html(model));
+						write(stylesFile, create.coimage.style(model, img.width / 2, img.height / 2));
+					});
+
+
 			});
 
 
