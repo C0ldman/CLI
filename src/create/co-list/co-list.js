@@ -20,10 +20,10 @@ export function model(id, modelName) {
         model.content.listStyle = `icon`;
 		model.content.items = [];
 		for(let i=0;i<3;i++){
-			let element = {};
-			element.text.html = `t.${name}Text1`;
+			let element = {"text":{},"icon":{"scr":""}};
+			element.text.html = `t.${modelName}Text1`;
 			element.icon.src = `media/images/${id}/${modelName}Bullet${i}.png`;
 			model.content.items.push(element);
-		}			
+		}
         return model
 }
