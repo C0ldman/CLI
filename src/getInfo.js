@@ -18,6 +18,14 @@ export function imagesFileList(id) {
 	return list
 }
 
+export function imagesFileNames(id) {
+	let list = fs.readdirSync(`./app/media/images/${id}`, 'utf8');
+	
+	return list.map((element)=>{
+		return element.slice(0,-4)
+	})
+}
+
 export function imagesIds(id) {
 	let imageFiles = imagesFileList(id);
 	return imageFiles.map((name) => {

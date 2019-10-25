@@ -41,6 +41,18 @@ commander
 				let model;
 				element.attribs.model ? model = element.attribs.model.slice(2) : model = '';
 				if (tag == 'coimage' && !commander.images) { return }
+				if (tag == 'coimage' && get.imagesFileNames(id).includes(id)) {
+					image.getImage(id, name)
+						.then((img) => {
+							let width, height;
+							commander.size ? (width = img.width, height = img.height) : (width = img.width / 2, height = img.heigh / 2);
+
+							write(modelFile, create.coimage.model(id, model));
+							write(htmlFile, create.coimage.html(model));
+							write(stylesFile, create.coimage.style(model, width, height));
+						});
+						return
+				}
 				if (create[tag]) {
 
 					if (create[tag].localization && model) {
