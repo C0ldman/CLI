@@ -11,7 +11,7 @@
             "program": "${workspaceFolder}/bin/create",
             "cwd": "${workspaceFolder}/bin",
             "args": [
-                "-hi",
+                "-f",
                 "titleSlide"
             ]
         }

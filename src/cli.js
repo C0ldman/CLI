@@ -13,7 +13,7 @@ import * as create from './create/create.js'
 
 
 
-commander.version('1.0.0').description('Filler for cobalt presentations');
+commander.version('1.0.4').description('Filler for cobalt presentations');
 commander
 	.option('-h --html', 'Slide ID to add model,localization,styles from HTML')
 	.option('-i --images', 'Slide ID to add model,localization,styles for images from HTML')
@@ -70,9 +70,12 @@ commander
 					});
 				image.getImage(id, name)
 					.then((img) => {
+						let width, height;
+						commander.size ? (width = img.width, height = img.height) : (width = img.width / 2, height = img.heigh / 2);
+
 						write(modelFile, create.coimage.model(id, model));
 						write(htmlFile, create.coimage.html(model));
-						write(stylesFile, create.coimage.style(model, img.width / 2, img.height / 2));
+						write(stylesFile, create.coimage.style(model, width, height));
 					});
 
 
