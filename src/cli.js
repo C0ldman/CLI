@@ -3,7 +3,10 @@ import { compress } from "./utils";
 const commander = require('commander'),
 	fs = require('fs'),
 	cheerio = require('cheerio'),
+	updateNotifier = require('update-notifier'),
+	pkg = require('../package.json'),
 	path = require('path');
+
 
 
 import * as get from './getInfo.js';
@@ -20,6 +23,7 @@ commander
 	.option('-f --files', 'Slide ID to fill with co-image HTML,model and styles from images folder')
 	.option('-s --size', 'Do not make half size of images in styles')
 	.option('-c --compress', 'Compress images')
+	.option('-v --version', 'Current version')
 	.arguments('<id>')
 	.description('Fill models,localization,styles from html file or images folder')
 	.action((id) => {
@@ -32,6 +36,9 @@ commander
 			language = JSON.parse(fs.readFileSync("./app/settings/app.json")).lang,
 			localizationFile = `./app/i18n/${language}/${id}.json`;
 
+		if (commander.version){
+			console.log(pkg.version);
+		}
 
 		if (commander.html) {
 			let tags = get.allTags(id);
@@ -51,7 +58,7 @@ commander
 							write(htmlFile, create.coimage.html(model));
 							write(stylesFile, create.coimage.style(model, width, height));
 						});
-						return
+					return
 				}
 				if (create[tag]) {
 
@@ -94,7 +101,9 @@ commander
 			});
 
 
-		}
+		};
+
+		updateNotifier({ pkg, updateCheckInterval: 1000 * 60 * 60 * 1 }).notify();
 	});
 
 export function cli(args) {

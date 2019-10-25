@@ -29,7 +29,8 @@
     "imagemin": "^7.0.0",
     "imagemin-jpegtran": "^6.0.0",
     "imagemin-pngquant": "^8.0.0",
-    "sharp": "^0.23.0"
+    "sharp": "^0.23.0",
+    "update-notifier": "^3.0.1"
   },
   "homepage": "https://github.com/C0ldman/CLI#readme"
 }
