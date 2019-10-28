@@ -18,11 +18,11 @@ import * as create from './create/create.js'
 
 commander.version('1.0.4').description('Filler for cobalt presentations');
 commander
-	.option('-h --html', 'Slide ID to add model,localization,styles from HTML')
-	.option('-i --images', 'Slide ID to add model,localization,styles for images from HTML')
-	.option('-f --files', 'Slide ID to fill with co-image HTML,model and styles from images folder')
-	.option('-s --size', 'Do not make half size of images in styles')
-	.option('-c --compress', 'Compress images')
+	.option('-h --html', 'Adding model,localization,styles by tags from HTML-file. Don\'t including co-image tags(to include all tags add option -i)')
+	.option('-i --images', 'Adding model,localization,styles for co-images from HTML(if ID of co-image tag == filename, half dimensions of image will be added to styles automatically)')
+	.option('-f --files', 'Adding HTML-tags,models and styles for images from slide\'s images folder. Checks dimensions for odd values and adding transparent pixels if needed.')
+	.option('-s --size', 'Don\'t make half size of images in styles(add dimensions of image "as is")')
+	.option('-c --compress', 'Compressing images (reduce the file size)')
 	.option('-v --version', 'Current version')
 	.arguments('<id>')
 	.description('Fill models,localization,styles from html file or images folder')
