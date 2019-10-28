@@ -28,7 +28,7 @@ commander
 	.description('Fill models,localization,styles from html file or images folder')
 	.action((id) => {
 		// process.chdir('/Users/y.ukrainets/Projects/Mylan/Australia/prep');
-		// process.chdir('/home/yuriy/Documents/Projects/presentations/prep/');
+		process.chdir('/home/yuriy/Documents/Projects/presentations/prep/');
 		const $ = cheerio.load(get.slideContent(id)),
 			stylesFile = `./app/styles/${id}.css`,
 			modelFile = `./app/data/models/${id}.json`,
@@ -36,7 +36,7 @@ commander
 			language = JSON.parse(fs.readFileSync("./app/settings/app.json")).lang,
 			localizationFile = `./app/i18n/${language}/${id}.json`;
 
-		if (commander.version){
+		if (commander.version) {
 			console.log(pkg.version);
 		}
 
