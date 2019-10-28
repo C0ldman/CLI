@@ -16,7 +16,7 @@ import * as create from './create/create.js'
 
 
 
-commander.version('1.0.4').description('Filler for cobalt presentations');
+commander.version('1.0.5').description('Filler for cobalt presentations');
 commander
 	.option('-h --html', 'Adding model,localization,styles by tags from HTML-file. Don\'t including co-image tags(to include all tags add option -i)')
 	.option('-i --images', 'Adding model,localization,styles for co-images from HTML(if ID of co-image tag == filename, half dimensions of image will be added to styles automatically)')
