@@ -7,10 +7,14 @@ export function write(path, data) {
 
 		if (Array.isArray(data)) {
 			data.forEach((element) => {
-				file[element.name] = element.content;
+				if(!file[element.name]) {
+					file[element.name] = element.content;
+				}
 			})
 		} else {
-			file[data.name] = data.content;
+			if(!file[data.name]) {
+				file[data.name] = data.content;
+			}
 		};
 
 		let jsonString = JSON.stringify(file);
