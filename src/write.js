@@ -41,41 +41,25 @@ function writeJSON(path, data) {
 
 function writeCSS(path, data) {
 	let file = css.parse(fs.readFileSync(path, 'utf8'));
-	let styles = file.stylesheet.rules;
+	let fileStyles = file.stylesheet.rules;
 	let incomeParsed = css.parse(data).stylesheet.rules[0];
 	let incomeStyles = css.parse(data).stylesheet.rules[0].declarations;
 	let incomeId = css.parse(data).stylesheet.rules[0].selectors[0];
 	
-	if (includeId(styles, incomeId)) {
+	if (includeId(fileStyles, incomeId)) {
 		console.log('present');
-		incomeStyles.forEach((newStyleItem) => {
-			// if (includeStyle(elementStyles.declarations, newStyleItem)) {
-			// 	return
-			// } else {
-			// 	file.stylesheet.rules[index].declarations.push(newStyleItem)
-			// }
-		})
+		// incomeStyles.forEach((newStyleItem) => {}
+		
 	}else{
-		console.log('Not present');
 		file.stylesheet.rules.push(incomeParsed);
-		console.log(file.stylesheet.rules);
 	}
-	// styles.forEach((elementStyles,index) => {
-	//
-	// 	if (elementStyles.selectors[0] == incomeId) {
-	// 		incomeStyles.forEach((newStyleItem) => {
-	//
-	// 			if( includeStyle(elementStyles.declarations,newStyleItem))
-	// 			{
-	// 				return
-	// 			}else{
-	// 				file.stylesheet.rules[index].declarations.push(newStyleItem)
-	// 			}
-	// 		})
-	// 	}
-	// });
 	
-	// console.log(css.stringify(file));
+	fs.writeFileSync(path, css.stringify(file), err => {
+		if (err) {
+			console.log(`Error writing file ${path}`, err)
+		}
+		console.log('writed!');
+	})
 	
 }
 
