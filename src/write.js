@@ -47,8 +47,14 @@ function writeCSS(path, data) {
 	let incomeId = css.parse(data).stylesheet.rules[0].selectors[0];
 	
 	if (includeId(fileStyles, incomeId)) {
-		console.log('present');
-		// incomeStyles.forEach((newStyleItem) => {}
+		
+		file.stylesheet.rules[getStyleIndex(fileStyles, incomeId)].declarations.forEach((elem)=>{
+			incomeStyles.forEach((income)=>{
+				// if(income.property)
+			})
+			
+		});
+		
 		
 	}else{
 		file.stylesheet.rules.push(incomeParsed);
@@ -81,4 +87,12 @@ function includeId(arr, id) {
 	return arr.some(function (arrVal) {
 		return arrVal.selectors[0] == id;
 	});
+}
+
+function getStyleIndex(arr, id){
+	return arr.findIndex((element)=>{
+		
+		if (element.selectors[0] == id) return true
+		
+	})
 }
