@@ -39,6 +39,16 @@
           "message": ""
         }
       ]
+    },
+    {
+      "version": "1.0.6",
+      "date": "2019.11.14",
+      "messages": [
+        {
+          "type": "fix",
+          "message": ""
+        }
+      ]
     }
   ]
 }
