@@ -20,15 +20,16 @@ function writeJSON(path, data) {
 	
 	if (Array.isArray(data)) {
 		data.forEach((element) => {
-			if(!file[element.name]) {
+			if (!file[element.name]) {
 				file[element.name] = element.content;
 			}
 		})
 	} else {
-		if(!file[data.name]) {
+		if (!file[data.name]) {
 			file[data.name] = data.content;
 		}
-	};
+	}
+	;
 	
 	let jsonString = JSON.stringify(file);
 	
@@ -47,16 +48,14 @@ function writeCSS(path, data) {
 	let incomeId = css.parse(data).stylesheet.rules[0].selectors[0];
 	
 	if (includeId(fileStyles, incomeId)) {
-		
-		file.stylesheet.rules[getStyleIndex(fileStyles, incomeId)].declarations.forEach((elem)=>{
-			incomeStyles.forEach((income)=>{
-				// if(income.property)
-			})
-			
+		let rulesIndex = getStyleIndex(fileStyles, incomeId);
+		incomeStyles.forEach((income) => {
+			if (!isProperty(file.stylesheet.rules[rulesIndex].declarations, income.property)) {
+				file.stylesheet.rules[rulesIndex].declarations.push(income);
+				
+			}
 		});
-		
-		
-	}else{
+	} else {
 		file.stylesheet.rules.push(incomeParsed);
 	}
 	
@@ -89,10 +88,14 @@ function includeId(arr, id) {
 	});
 }
 
-function getStyleIndex(arr, id){
-	return arr.findIndex((element)=>{
-		
+function getStyleIndex(arr, id) {
+	return arr.findIndex((element) => {
 		if (element.selectors[0] == id) return true
-		
+	})
+}
+
+function isProperty(arr, property) {
+	return arr.some((element) => {
+		return element.property == property
 	})
 }
