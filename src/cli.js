@@ -36,7 +36,7 @@ commander
 			language = JSON.parse(fs.readFileSync("./app/settings/app.json")).lang,
 			localizationFile = `./app/i18n/${language}/${id}.json`;
 
-		if (commander.version){
+		if (commander.version) {
 			console.log(pkg.version);
 		}
 
