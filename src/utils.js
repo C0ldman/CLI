@@ -27,7 +27,7 @@ export function compress(id, name) {
 }
 
 export function getImage(id, name) {
-	let image = sharp(`./app/media/images/${id}/${name}`);
+	let image = sharp(`./app/media/images/${id}/${name}.png`);
 
 	return image.metadata()
 }

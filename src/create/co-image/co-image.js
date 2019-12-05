@@ -18,6 +18,9 @@ export function style(elementId, width, height) {
         height ? newHeight = `${height}px` : newHeight = '100px';
         let style = `\r\n#${elementId} {
 	width:${newWidth};
+	position:absolute;
+	top:0;
+	left:0;
 	height:${newHeight};
 	transform:matrix(1,0,0,1,0,0);}`;
         return style
