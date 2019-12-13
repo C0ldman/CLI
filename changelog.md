@@ -1,5 +1,12 @@
 # Release notes
 
+### 1.0.8 - 2019.12.14
+
+#### Fixed
+
+
+ - fix image dimension
+
 ### 1.0.7 - 2019.12.14
 
 #### Fixed

@@ -63,6 +63,16 @@
           "message": "fix image dimension"
         }
       ]
+    },
+    {
+      "version": "1.0.8",
+      "date": "2019.12.14",
+      "messages": [
+        {
+          "type": "fix",
+          "message": "fix image dimension"
+        }
+      ]
     }
   ]
 }
