@@ -1,6 +1,6 @@
 {
   "name": "cobalt-fill",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Filler for cobalt presentation",
   "main": "src/index.js",
   "bin": {
