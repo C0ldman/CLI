@@ -11,11 +11,13 @@ export function allTags(id) {
 	return tags
 }
 
-
-
 export function imagesFileList(id) {
 	let list = fs.readdirSync(`./app/media/images/${id}`, 'utf8');
 	return list
+}
+
+export function  imageNameWithDimension(id,name) {
+	return imagesFileList(id).filter(item => item.slice(0, -4)==name)
 }
 
 export function imagesFileNames(id) {

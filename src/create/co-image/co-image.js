@@ -16,11 +16,11 @@ export function style(elementId, width, height) {
         let newWidth, newHeight;
         width ? newWidth = `${width}px` : newWidth = '100px';
         height ? newHeight = `${height}px` : newHeight = '100px';
-        let style = `\r\n#${elementId} {
-	width:${newWidth};
+        let style = `\r\n#${elementId} {	
 	position:absolute;
 	top:0;
-	left:0;
+        left:0;
+        width:${newWidth};
 	height:${newHeight};
 	transform:matrix(1,0,0,1,0,0);}`;
         return style
