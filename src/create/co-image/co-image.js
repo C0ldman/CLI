@@ -3,10 +3,10 @@ export function html(elementId) {
         return html
 }
 
-export function model(id, modelName) {
+export function model(id, modelName, filename = modelName +'.png') {        
         let model = { name: "", content: {} };
         model.name = `${modelName}`;
-        model.content.src = `media/images/${id}/${modelName}.png`;
+        model.content.src = `media/images/${id}/${filename}`;
         model.content.position = "center center";
         model.content.size = "contain";
         return model

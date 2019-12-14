@@ -9,10 +9,10 @@ const sharp = require('sharp'),
 export function isOdd(num) { return num % 2; }
 
 export function compress(id, name) {
-	name ? undefined : name = `*.{jpg,png}`;
+	name ? name : `*.{jpg,png}`;
 	let file = [];
 	file.push(`./app/media/images/${id}/${name}`);
-	console.log(file);
+
 	(async () => {
 		const files = await imagemin(file, {
 			destination: `./app/media/images/${id}`,
@@ -111,8 +111,7 @@ export function updateDimensions(id, name) {
 
 					resolve();
 				});
-			});
-		return resolve;
+			})
 	})
 
 }
