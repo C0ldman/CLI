@@ -22,7 +22,7 @@ commander
 	.description('Fill models,localization,styles from html file or images folder')
 	.action((id) => {
 		// process.chdir('/Users/y.ukrainets/Projects/Mylan/Australia/prep');
-		// process.chdir('/home/yuriy/Documents/Projects/presentations/prep/');
+		process.chdir('/home/yuriy/Documents/Projects/presentations/prep/');
 		const stylesFile = `./app/styles/${id}.css`,
 			modelFile = `./app/data/models/${id}.json`,
 			htmlFile = `./app/${id}.html`,
@@ -30,11 +30,16 @@ commander
 			localizationFile = `./app/i18n/${language}/${id}.json`;
 
 		if (commander.compress) {
+
 			let images = get.imagesFileList(id);
 			images.forEach(imageFile => {
-				image.updateDimensions(id, imageFile)
-					.then(compress(id, imageFile))
-			})
+				
+					 image.updateDimensions(id, imageFile)
+						.then(compress(id, imageFile))
+				
+			});
+
+
 		}
 
 		let tags = get.allTags(id);
@@ -74,16 +79,16 @@ commander
 					if (commander.size) {
 						width = img.width;
 						height = img.height;
-					}else{
-						width = img.width/2;
-						height = img.height/2;
+					} else {
+						width = img.width / 2;
+						height = img.height / 2;
 						if ((image.isOdd(img.width) || image.isOdd(img.height)) && !commander.compress) {
 							console.log(chalk.hex('#FF0000')(`Odd dimensions of ${get.imageNameWithDimension(id, element.attribs.id)} Width:${img.width} Height:${img.height}`));
 							image.isOdd(img.width) ? width = width + 0.5 : width;
 							image.isOdd(img.height) ? height = height + 0.5 : height;
 						}
 					}
-										
+
 					write(modelFile, create.coimage.model(id, model, get.imageNameWithDimension(id, element.attribs.id)));
 					write(stylesFile, create.coimage.style(model, width, height));
 				});
