@@ -32,11 +32,11 @@ export function getImage(id, name) {
 	return image.metadata()
 }
 
-export function updateDimensions(id, name) {
-	return new Promise((resolve, reject) => {
+export async function updateDimensions(id, name) {
+	
 		let image = sharp(`./app/media/images/${id}/${name}`);
 
-		image.metadata()
+		return image.metadata()
 			.then((metadata) => {
 				let changeWidth = isOdd(metadata.width);
 				let changeHeight = isOdd(metadata.height);
@@ -44,44 +44,13 @@ export function updateDimensions(id, name) {
 					return image
 						.extend({
 							top: 0,
-							bottom: 1,
-							right: 1,
+							bottom: Number(changeHeight),
+							right: Number(changeWidth),
 							left: 0,
 							background: { r: 0, g: 0, b: 0, alpha: 0 }
 						})
 						.toFile(`./app/media/images/${id}/${name}temp`)
 				}
-				;
-				if (changeWidth && !changeHeight) {
-					return image
-						.extend({
-							top: 0,
-							bottom: 0,
-							right: 1,
-							left: 0,
-							background: { r: 0, g: 0, b: 0, alpha: 0 }
-						})
-						.toFile(`./app/media/images/${id}/${name}temp`)
-				}
-				;
-				if (!changeWidth && changeHeight) {
-					return image
-						.extend({
-							top: 0,
-							bottom: 1,
-							right: 0,
-							left: 0,
-							background: { r: 0, g: 0, b: 0, alpha: 0 }
-						})
-						.toFile(`./app/media/images/${id}/${name}temp`)
-				}
-				;
-				if (!changeWidth && !changeHeight) {
-					return new Promise((resolve, reject) => {
-						resolve();
-					})
-				}
-				;
 			})
 			.then(() => {
 				return new Promise((resolve, reject) => {
@@ -108,10 +77,9 @@ export function updateDimensions(id, name) {
 							});
 						}
 					})
-
 					resolve();
 				});
 			})
-	})
+
 
 }

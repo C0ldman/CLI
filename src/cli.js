@@ -32,8 +32,10 @@ commander
 		if (commander.compress) {
 			let images = get.imagesFileList(id);
 			images.forEach(imageFile => {
-				image.updateDimensions(id, imageFile)
-					.then(compress(id, imageFile))
+				(async () => {
+					await image.updateDimensions(id, imageFile);
+					image.compress(id, imageFile)
+				})()
 			})
 		}
 
@@ -77,13 +79,13 @@ commander
 					}else{
 						width = img.width/2;
 						height = img.height/2;
+						image.isOdd(img.width) ? width = width + 0.5 : width;
+						image.isOdd(img.height) ? height = height + 0.5 : height;
 						if ((image.isOdd(img.width) || image.isOdd(img.height)) && !commander.compress) {
 							console.log(chalk.hex('#FF0000')(`Odd dimensions of ${get.imageNameWithDimension(id, element.attribs.id)} Width:${img.width} Height:${img.height}`));
-							image.isOdd(img.width) ? width = width + 0.5 : width;
-							image.isOdd(img.height) ? height = height + 0.5 : height;
 						}
 					}
-										
+					
 					write(modelFile, create.coimage.model(id, model, get.imageNameWithDimension(id, element.attribs.id)));
 					write(stylesFile, create.coimage.style(model, width, height));
 				});
