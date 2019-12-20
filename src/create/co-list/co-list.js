@@ -24,7 +24,7 @@ export function model(id, modelName) {
 		model.content.items = [];
 		for(let i=0;i<3;i++){
 			let element = {"text":{},"icon":{"scr":""}};
-			element.text.html = `t.${modelName}Text1`;
+			element.text.html = `t.${modelName}Text${i}`;
 			element.icon.src = `media/images/${id}/${modelName}Bullet${i}.png`;
 			model.content.items.push(element);
 		}
