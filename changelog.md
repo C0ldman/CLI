@@ -1,5 +1,12 @@
 # Release notes
 
+### 1.1.2 - 2020.01.17
+
+#### Fixed
+
+
+ - Add css prettyfyer
+
 ### 1.1.1 - 2019.12.20
 
 #### Fixed
