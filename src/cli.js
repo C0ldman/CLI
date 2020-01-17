@@ -31,7 +31,7 @@ commander
 			language = JSON.parse(fs.readFileSync("./app/settings/app.json")).lang,
 			localizationFile = `./app/i18n/${language}/${id}.json`;
 		if (commander.prettyfycss) {
-			css.prettify(stylesFile)
+			css.prettify(stylesFile);
 			return
 		}
 
@@ -50,7 +50,6 @@ commander
 			let tag = element.name.split('-').join('');
 			(tag == 'coimage' && get.imagesFileNames(id).includes(element.attribs.id)) ? coImageFlow(element) : normalFlow(element);
 			updateNotifier({ pkg, updateCheckInterval: 100 * 60 * 60 * 1 }).notify();
-
 		});
 
 		function normalFlow(element) {

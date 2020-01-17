@@ -19,3 +19,7 @@ Don't make half size of images in styles(add dimensions of image "as is")
 **`-c --compress`**
 
 Compressing images (reduce the file size), check dimensions for even values.
+
+**`-p --prettyfycss`**
+
+Sort properties in selectors in CSS file.
