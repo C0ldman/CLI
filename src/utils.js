@@ -1,9 +1,7 @@
-import { resolve } from 'dns';
-
 const sharp = require('sharp'),
-	imagemin = require('imagemin'),
+	imagemin = require('imagemin'),	
 	imageminJpegtran = require('imagemin-jpegtran'),
-	imageminPngquant = require('imagemin-pngquant'),
+	imageminPngquant = require('imagemin-pngquant'),	
 	fs = require('fs');
 
 export function isOdd(num) { return num % 2; }

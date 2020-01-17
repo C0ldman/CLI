@@ -1,4 +1,4 @@
-import { compress } from "./utils";
+import {compress} from "./utils";
 
 const commander = require('commander'),
 	fs = require('fs'),
@@ -9,15 +9,17 @@ const commander = require('commander'),
 	path = require('path');
 
 import * as get from './getInfo.js';
-import { write } from './write.js';
+import {write} from './write.js';
 import * as image from './utils.js';
 import * as create from './create/create.js'
+import * as css from './csspretty.js'
 
 commander.version(pkg.version).description('Filler for cobalt presentations');
 commander
 	.option('-s --size', 'Don\'t make half size of images in styles(add dimensions of image "as is")')
 	.option('-c --compress', 'Compressing images and make even dimensions')
 	.option('-v --version', 'Current version')
+	.option('-p --prettyfycss', 'Sort properties in css file')
 	.arguments('<id>')
 	.description('Fill models,localization,styles from html file or images folder')
 	.action((id) => {
@@ -28,6 +30,10 @@ commander
 			htmlFile = `./app/${id}.html`,
 			language = JSON.parse(fs.readFileSync("./app/settings/app.json")).lang,
 			localizationFile = `./app/i18n/${language}/${id}.json`;
+		if (commander.prettyfycss) {
+			css.prettify(stylesFile)
+			return
+		}
 
 		if (commander.compress) {
 			let images = get.imagesFileList(id);

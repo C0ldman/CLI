@@ -26,6 +26,7 @@
     "cheerio": "^1.0.0-rc.3",
     "commander": "^2.2.0",
     "css": "^2.2.4",
+    "csscomb": "^4.3.0",
     "esm": "^3.2.25",
     "imagemin": "^7.0.0",
     "imagemin-jpegtran": "^6.0.0",
