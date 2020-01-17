@@ -1,5 +1,12 @@
 # Release notes
 
+### 1.1.3 - 2020.01.17
+
+#### Updated
+
+
+ - Update readme
+
 ### 1.1.2 - 2020.01.17
 
 #### Fixed
