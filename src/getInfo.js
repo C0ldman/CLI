@@ -2,10 +2,12 @@ const chalk = require('chalk'),
 	cheerio = require('cheerio'),
 	fs = require('fs');
 
-export function allTags(id) {
+
+export function tags(id, selector='*') {
+	
 	let tags = [];
 	let $ = cheerio.load(slideContent(id));
-	$('article').find('*').each((i, elem) => {
+	$('article').find(selector).each((i, elem) => {
 		tags.push(elem)
 	});
 	return tags

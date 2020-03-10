@@ -52,7 +52,6 @@ function writeCSS(path, data) {
 		incomeStyles.forEach((income) => {
 			if (!isProperty(file.stylesheet.rules[rulesIndex].declarations, income.property)) {
 				file.stylesheet.rules[rulesIndex].declarations.push(income);
-				
 			}
 		});
 	} else {

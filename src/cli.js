@@ -2,6 +2,7 @@ import {compress} from "./utils";
 
 const commander = require('commander'),
 	fs = require('fs'),
+	cssParcer = require('css'),
 	cheerio = require('cheerio'),
 	updateNotifier = require('update-notifier'),
 	pkg = require('../package.json'),
@@ -16,6 +17,46 @@ import * as css from './csspretty.js'
 
 commander.version(pkg.version).description('Filler for cobalt presentations');
 commander
+	.command('remove-pa <id>', 'Remove class \"pa\" from html, styles correction')
+	.action((id)=>{
+		process.chdir('/Volumes/160Gb/Projects/biogen/Avonex-pregnancy/avonex-pregnancy-sk-eng/');
+		const stylesFile = `./app/styles/${id}.css`,
+			htmlFile = `./app/${id}.html`;
+		// let htmlContent = fs.readFileSync(htmlFile, 'utf-8');
+		// let classPaRegexp = /(?<=[\s|\"])pa(?=[\s|"])\s{0,1}/gm;
+		// let emptyClassRegexp = /class=""\s{0,1}/gm;
+		// let newHtmlContent = htmlContent.replace(classPaRegexp,'').replace(emptyClassRegexp,'');
+		// fs.writeFileSync(htmlFile, newHtmlContent);
+		function isProperty(arr, property) {
+			return arr.some((element) => {
+				return element.property == property
+			})
+		}
+		let newStyle=[{
+			type: 'declaration',
+			property: 'position',
+			value: 'absolute'
+		},
+			{
+				type: 'declaration',
+				property: 'top',
+				value: '0'
+			},
+			{
+				type: 'declaration',
+				property: 'left',
+				value: '0'
+			}]
+		let styles = cssParcer.parse(fs.readFileSync(stylesFile, 'utf-8'));
+		// let newSyles = cssParcer.parse('position: absolute;top: 0px;left: 0px;');
+		styles.stylesheet.rules.forEach(item=>{
+			item.declarations=[...item.declarations, ...newStyle]
+		})
+		console.log(styles);
+	})
+
+commander
+	.command('fill')
 	.option('-s --size', 'Don\'t make half size of images in styles(add dimensions of image "as is")')
 	.option('-c --compress', 'Compressing images and make even dimensions')
 	.option('-v --version', 'Current version')
@@ -45,7 +86,7 @@ commander
 			})
 		}
 
-		let tags = get.allTags(id);
+		let tags = get.tags(id);
 		tags.forEach((element) => {
 			let tag = element.name.split('-').join('');
 			(tag == 'coimage' && get.imagesFileNames(id).includes(element.attribs.id)) ? coImageFlow(element) : normalFlow(element);
@@ -90,7 +131,7 @@ commander
 							console.log(chalk.hex('#FF0000')(`Odd dimensions of ${get.imageNameWithDimension(id, element.attribs.id)} Width:${img.width} Height:${img.height}`));
 						}
 					}
-					
+
 					write(modelFile, create.coimage.model(id, model, get.imageNameWithDimension(id, element.attribs.id)));
 					write(stylesFile, create.coimage.style(model, width, height));
 				});
