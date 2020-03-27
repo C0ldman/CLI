@@ -22,16 +22,14 @@ commander
 		process.chdir('/Volumes/160Gb/Projects/biogen/Avonex-pregnancy/avonex-pregnancy-sk-eng/');
 		const stylesFile = `./app/styles/${id}.css`,
 			htmlFile = `./app/${id}.html`;
-		// let htmlContent = fs.readFileSync(htmlFile, 'utf-8');
-		// let classPaRegexp = /(?<=[\s|\"])pa(?=[\s|"])\s{0,1}/gm;
-		// let emptyClassRegexp = /class=""\s{0,1}/gm;
-		// let newHtmlContent = htmlContent.replace(classPaRegexp,'').replace(emptyClassRegexp,'');
-		// fs.writeFileSync(htmlFile, newHtmlContent);
-		function isProperty(arr, property) {
-			return arr.some((element) => {
-				return element.property == property
-			})
-		}
+		let toRemove='pa';
+		let htmlContent = fs.readFileSync(htmlFile, 'utf-8');
+		let pattern=`(?<=[\\s|\\"])${toRemove}(?=[\\s|"])\\s{0,1}`;
+		let classPaRegexp = new RegExp(pattern,"gm");
+		let emptyClassRegexp = /class=""\s{0,1}/gm;
+		let newHtmlContent = htmlContent.replace(classPaRegexp,'').replace(emptyClassRegexp,'');
+		fs.writeFileSync(htmlFile, newHtmlContent);
+		
 		let newStyle=[{
 			type: 'declaration',
 			property: 'position',
@@ -51,8 +49,14 @@ commander
 		// let newSyles = cssParcer.parse('position: absolute;top: 0px;left: 0px;');
 		styles.stylesheet.rules.forEach(item=>{
 			item.declarations=[...item.declarations, ...newStyle]
-		})
-		console.log(styles);
+		});
+		fs.writeFileSync(stylesFile, cssParcer.stringify(styles), err => {
+			if (err) {
+				console.log(`Error writing file ${path}`, err)
+			}
+			console.log('writed!');
+		});
+		
 	})
 
 commander
