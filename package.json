@@ -4,7 +4,8 @@
   "description": "Filler for cobalt presentation",
   "main": "src/index.js",
   "bin": {
-    "cobalt-fill": "bin/create"
+    "cobalt-fill": "bin/create",
+    "cbf": "bin/create"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

@@ -12,18 +12,21 @@ const commander = require('commander'),
 // import {write} from './write.js';
 // import * as image from './utils.js';
 // import * as create from './create/create.js'
-// import * as css from './csspretty.js'
+import * as css from './modules/csspretty.js'
 
 commander.version(pkg.version).description('Filler for cobalt presentations')
-.command('pretty <id>').action((id)=>{
-		console.log(id);
-	});
-commander.command('compress <id>').action((id)=>{
+	.command('pretty <id>').action((id) => {
+	let pres = getPresentationInfo(id);
+	css.prettify(pres.stylesFile);
+	console.log(`File ${id}.css prettyfied!`);
+});
+
+commander.command('compress <id>').action((id) => {
 	console.log(id);
 });
 
 commander.arguments('<id>')
-	.action((id)=>{
+	.action((id) => {
 		console.log(id);
 	});
 
@@ -40,6 +43,16 @@ commander.arguments('<id>')
 // 		// process.chdir('/home/yuriy/Documents/Projects/presentations/prep/');
 //
 // 	})
+
+function getPresentationInfo(id) {
+	let info = {};
+	info.language = JSON.parse(fs.readFileSync("./app/settings/app.json")).lang;
+	info.stylesFile = `./app/styles/${id}.css`;
+	info.modelFile = `./app/data/models/${id}.json`;
+	info.htmlFile = `./app/${id}.html`;
+	info.localizationFile = `./app/i18n/${info.language}/${id}.json`;
+	return info
+}
 
 export function cli(args) {
 	commander.parse(args)
