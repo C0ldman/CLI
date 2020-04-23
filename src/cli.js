@@ -22,10 +22,11 @@ commander.version(pkg.version).description('Filler for cobalt presentations')
 		.then(console.log(`File ${id}.css prettyfied!`));
 });
 
-commander.command('compress <id>, [filename]').action((id,filename) => {
+commander.command('compress <id>, [filename]').action((id, filename) => {
+	process.chdir('/Volumes/160Gb/Projects/biogen/MSopener/multiplechoices-opener-ca-eng/');
 	let presentation = getPresentationInfo(id);
-	compress(id,filename).
-	then(console.log('Complete!'));
+	compress(id, filename)
+		.then(console.log(`Compression complete!`));
 });
 
 commander.arguments('<id>')

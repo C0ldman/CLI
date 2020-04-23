@@ -6,7 +6,7 @@ export async function compress(id, name) {
 	name == undefined ? name=`*.{jpg,png}`: name;
 	let file = [];
 	file.push(`./app/media/images/${id}/${name}`);
-	const files = await imagemin(file, {
+	await imagemin(file, {
 		destination: `./app/media/images/${id}`,
 		plugins: [
 			imageminJpegtran(),
