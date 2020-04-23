@@ -2,7 +2,7 @@ const imagemin = require('imagemin'),
 	imageminJpegtran = require('imagemin-jpegtran'),
 	imageminPngquant = require('imagemin-pngquant');
 
-export async function compress(id, name) {
+export async function compressImages(id, name) {
 	name == undefined ? name=`*.{jpg,png}`: name;
 	let file = [];
 	file.push(`./app/media/images/${id}/${name}`);
@@ -11,7 +11,9 @@ export async function compress(id, name) {
 		plugins: [
 			imageminJpegtran(),
 			imageminPngquant({
-				quality: [0.6, 0.8]
+				quality: [0.95, 1],
+				strip:true,
+				speed:1
 			})
 		]
 	});

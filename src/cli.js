@@ -12,26 +12,28 @@ const commander = require('commander'),
 // import {write} from './write.js';
 // import * as image from './utils.js';
 // import * as create from './create/create.js'
-import * as css from './modules/csspretty.js'
-import {compress} from './modules/compress.js'
+import {prettifyCSS} from './modules/csspretty.js'
+import {compressImages} from './modules/compress.js'
 
 commander.version(pkg.version).description('Filler for cobalt presentations')
-	.command('pretty <id>').action((id) => {
-	let presentation = getPresentationInfo(id);
-	css.prettify(presentation.stylesFile)
-		.then(console.log(`File ${id}.css prettyfied!`));
-});
-
-commander.command('compress <id>, [filename]').action((id, filename) => {
-	process.chdir('/Volumes/160Gb/Projects/biogen/MSopener/multiplechoices-opener-ca-eng/');
-	let presentation = getPresentationInfo(id);
-	compress(id, filename)
-		.then(console.log(`Compression complete!`));
-});
-
-commander.arguments('<id>')
+	.arguments('<id>')
 	.action((id) => {
 		console.log(id);
+	});
+
+commander.command('pretty <id>')
+	.action((id) => {
+		let presentation = getPresentationInfo(id);
+		prettifyCSS(presentation.stylesFile)
+			.then(console.log(`File ${id}.css prettyfied!`));
+	});
+
+commander.command('compress <id>, [filename]')
+	.action((id, filename) => {
+		process.chdir('/Volumes/160Gb/Projects/biogen/MSopener/multiplechoices-opener-ca-eng/');
+		let presentation = getPresentationInfo(id);
+		compressImages(id, filename)
+			.then(console.log(`Compression complete!`));
 	});
 
 
