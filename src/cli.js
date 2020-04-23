@@ -14,6 +14,7 @@ const commander = require('commander'),
 // import * as create from './create/create.js'
 import {prettifyCSS} from './modules/csspretty.js'
 import {compressImages} from './modules/compress.js'
+import {removeClassFromHtml} from './modules/classRemover'
 
 commander.version(pkg.version).description('Filler for cobalt presentations')
 	.arguments('<id>')
@@ -34,6 +35,13 @@ commander.command('compress <id>, [filename]')
 		let presentation = getPresentationInfo(id);
 		compressImages(id, filename)
 			.then(console.log(`Compression complete!`));
+	});
+
+commander.command('clearClass <id>, [className]')
+	.action((id, className='pa') => {
+		process.chdir('/Volumes/160Gb/Projects/biogen/MSopener/multiplechoices-opener-ca-eng/');
+		let presentation = getPresentationInfo(id);
+	removeClassFromHtml(presentation.htmlFile, className).then(console.log(`Removing class ${className} from file ${id}.html complete!`));
 	});
 
 
