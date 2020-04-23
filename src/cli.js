@@ -13,16 +13,19 @@ const commander = require('commander'),
 // import * as image from './utils.js';
 // import * as create from './create/create.js'
 import * as css from './modules/csspretty.js'
+import {compress} from './modules/compress.js'
 
 commander.version(pkg.version).description('Filler for cobalt presentations')
 	.command('pretty <id>').action((id) => {
-	let pres = getPresentationInfo(id);
-	css.prettify(pres.stylesFile);
-	console.log(`File ${id}.css prettyfied!`);
+	let presentation = getPresentationInfo(id);
+	css.prettify(presentation.stylesFile)
+		.then(console.log(`File ${id}.css prettyfied!`));
 });
 
-commander.command('compress <id>').action((id) => {
-	console.log(id);
+commander.command('compress <id>, [filename]').action((id,filename) => {
+	let presentation = getPresentationInfo(id);
+	compress(id,filename).
+	then(console.log('Complete!'));
 });
 
 commander.arguments('<id>')
