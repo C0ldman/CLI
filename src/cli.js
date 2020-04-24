@@ -12,44 +12,54 @@ const commander = require('commander'),
 // import {write} from './write.js';
 // import * as image from './utils.js';
 // import * as create from './create/create.js'
-import {prettifyCSS} from './modules/csspretty.js'
-import {compressImages} from './modules/compress.js'
+import {prettifyCSS} from './modules/csspretty'
+import {getAllTags} from './modules/parser'
+import {compressImages} from './modules/compress'
 import {removeClassFromHtml} from './modules/classRemover'
+import {getSlideInfo} from './modules/slideInfo'
+import {notifyUpdate} from './modules/notifier'
 
 commander.version(pkg.version).description('Filler for cobalt presentations')
 	.arguments('<id>')
 	.action((id) => {
-		console.log(id);
+		process.chdir('/Volumes/160Gb/Projects/biogen/MSopener/multiplechoices-opener-ca-eng/');
+		let slide = getSlideInfo(id);
+		console.log(slide.model);
+		
+		let tags = getAllTags(id);
+		for (let tag of tags) {
+		
+		}
+		notifyUpdate(pkg);
 	});
 
 commander.command('pretty <id>')
 	.action((id) => {
-		let presentation = getPresentationInfo(id);
-		prettifyCSS(presentation.stylesFile)
+		let slide = getSlideInfo(id);
+		prettifyCSS(slide.stylesFile)
 			.then(console.log(`File ${id}.css prettyfied!`));
+		notifyUpdate(pkg);
 	});
 
 commander.command('compress <id>, [filename]')
 	.action((id, filename) => {
-		process.chdir('/Volumes/160Gb/Projects/biogen/MSopener/multiplechoices-opener-ca-eng/');
-		let presentation = getPresentationInfo(id);
+		let slide = getSlideInfo(id);
 		compressImages(id, filename)
 			.then(console.log(`Compression complete!`));
+		notifyUpdate(pkg);
 	});
 
 commander.command('clearClass <id>, [className]')
-	.action((id, className='pa') => {
-		process.chdir('/Volumes/160Gb/Projects/biogen/MSopener/multiplechoices-opener-ca-eng/');
-		let presentation = getPresentationInfo(id);
-	removeClassFromHtml(presentation.htmlFile, className).then(console.log(`Removing class ${className} from file ${id}.html complete!`));
+	.action((id, className = 'pa') => {
+		console.log(process.cwd());
+		let slide = getSlideInfo(id);
+		removeClassFromHtml(presentation.htmlFile, className).then(console.log(`Removing class ${className} from file ${id}.html complete!`));
+		notifyUpdate(pkg);
 	});
 
 
 // commander
 // 	.option('-s --size', 'Don\'t make half size of images in styles(add dimensions of image "as is")')
-// 	.option('-c --compress', 'Compressing images and make even dimensions')
-// 	.option('-v --version', 'Current version')
-// 	.option('-p --prettyfycss', 'Sort properties in css file')
 // 	.arguments('<id>')
 // 	.description('Fill models,localization,styles from html')
 // 	.action((id) => {
@@ -58,15 +68,6 @@ commander.command('clearClass <id>, [className]')
 //
 // 	})
 
-function getPresentationInfo(id) {
-	let info = {};
-	info.language = JSON.parse(fs.readFileSync("./app/settings/app.json")).lang;
-	info.stylesFile = `./app/styles/${id}.css`;
-	info.modelFile = `./app/data/models/${id}.json`;
-	info.htmlFile = `./app/${id}.html`;
-	info.localizationFile = `./app/i18n/${info.language}/${id}.json`;
-	return info
-}
 
 export function cli(args) {
 	commander.parse(args)
