@@ -1,36 +1,37 @@
 // import {compress} from "./utils";
 
+import {write} from "../old/write";
+
 const commander = require('commander'),
 	fs = require('fs'),
-	cheerio = require('cheerio'),
-	updateNotifier = require('update-notifier'),
 	pkg = require('../package.json'),
 	chalk = require('chalk'),
 	path = require('path');
 
-// import * as get from './getInfo.js';
-// import {write} from './write.js';
-// import * as image from './utils.js';
-// import * as create from './create/create.js'
 import {prettifyCSS} from './modules/csspretty'
 import {getAllTags} from './modules/parser'
 import {compressImages} from './modules/compress'
 import {removeClassFromHtml} from './modules/classRemover'
 import {getSlideInfo} from './modules/slideInfo'
 import {notifyUpdate} from './modules/notifier'
+import {createElement} from './modules/elementCreator'
+import {updateSlide} from './modules/slideUpdater'
 
 commander.version(pkg.version).description('Filler for cobalt presentations')
 	.arguments('<id>')
 	.action((id) => {
 		process.chdir('/Volumes/160Gb/Projects/biogen/MSopener/multiplechoices-opener-ca-eng/');
-		let slide = getSlideInfo(id);
-		console.log(slide.model);
-		
-		let tags = getAllTags(id);
-		for (let tag of tags) {
-		
-		}
-		notifyUpdate(pkg);
+		(async () => {
+			let slide = getSlideInfo(id);
+			let tags = getAllTags(id);
+			for (let tag of tags) {
+				let newElement = await createElement(tag);
+				let newSlide = await updateSlide(newElement, slide);
+				slide = {...slide,...newSlide};
+			}
+			await write(slide);
+		})();
+		// notifyUpdate(pkg);
 	});
 
 commander.command('pretty <id>')
@@ -67,6 +68,7 @@ commander.command('clearClass <id>, [className]')
 // 		// process.chdir('/home/yuriy/Documents/Projects/presentations/prep/');
 //
 // 	})
+
 
 
 export function cli(args) {

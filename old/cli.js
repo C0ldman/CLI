@@ -11,7 +11,7 @@ const commander = require('commander'),
 import * as get from './getInfo.js';
 import {write} from './write.js';
 import * as image from './utils.js';
-import * as create from './create/create.js'
+import * as create from '../src/create/create.js'
 import * as css from './csspretty.js'
 
 commander.version(pkg.version).description('Filler for cobalt presentations');
