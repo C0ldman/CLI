@@ -1,8 +1,6 @@
 const commander = require('commander'),
-	fs = require('fs'),
 	pkg = require('../package.json'),
-	chalk = require('chalk'),
-	path = require('path');
+	chalk = require('chalk');
 
 import {prettifyCSS} from './modules/csspretty'
 import {getAllTags} from './modules/parser'
@@ -17,7 +15,7 @@ import {write} from './modules/write'
 commander.version(pkg.version).description('Filler for cobalt presentations')
 	.arguments('<id>')
 	.action((id) => {
-		process.chdir('/Volumes/160Gb/Projects/biogen/MSopener/multiplechoices-opener-ca-eng/');
+		// process.chdir('/Volumes/160Gb/Projects/biogen/MSopener/multiplechoices-opener-ca-eng/');
 		(async () => {
 			let slide = getSlideInfo(id);
 			let tags = getAllTags(id);
@@ -27,16 +25,16 @@ commander.version(pkg.version).description('Filler for cobalt presentations')
 				slide = {...slide,...newSlide};
 			}
 			await write(slide)
-				.then(console.log('Writed!'));
+				.then(console.log(chalk.hex('#28FE14')('Done!')));
 		})();
-		// notifyUpdate(pkg);
+		notifyUpdate(pkg);
 	});
 
 commander.command('pretty <id>')
 	.action((id) => {
 		let slide = getSlideInfo(id);
 		prettifyCSS(slide.stylesFile)
-			.then(console.log(`File ${id}.css prettyfied!`));
+			.then(console.log(chalk.hex('#28FE14')(`File ${id}.css prettyfied!`)));
 		notifyUpdate(pkg);
 	});
 
@@ -44,7 +42,7 @@ commander.command('compress <id>, [filename]')
 	.action((id, filename) => {
 		let slide = getSlideInfo(id);
 		compressImages(id, filename)
-			.then(console.log(`Compression complete!`));
+			.then(console.log(chalk.hex('#28FE14')(`Compression complete!`)));
 		notifyUpdate(pkg);
 	});
 
@@ -55,19 +53,6 @@ commander.command('clearClass <id>, [className]')
 		removeClassFromHtml(presentation.htmlFile, className).then(console.log(`Removing class ${className} from file ${id}.html complete!`));
 		notifyUpdate(pkg);
 	});
-
-
-// commander
-// 	.option('-s --size', 'Don\'t make half size of images in styles(add dimensions of image "as is")')
-// 	.arguments('<id>')
-// 	.description('Fill models,localization,styles from html')
-// 	.action((id) => {
-// 		// process.chdir('/Users/y.ukrainets/Projects/Mylan/Australia/prep');
-// 		// process.chdir('/home/yuriy/Documents/Projects/presentations/prep/');
-//
-// 	})
-
-
 
 export function cli(args) {
 	commander.parse(args)
