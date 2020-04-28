@@ -10,7 +10,7 @@ export async function updateSlide(element, slide) {
 		newSlide.localization = {...element.localization, ...slide.localization}
 	}
 	
-	if (element.styles!=undefined && element.styles) {
+	if (element && element.styles!=undefined && element.styles) {
 		newSlide.styles=updateCss(element,slide)
 	}
 	return newSlide
@@ -18,8 +18,9 @@ export async function updateSlide(element, slide) {
 
 
 function includeId(arr, id) {
-	return arr.some((arrVal)=> {
-		return arrVal.selectors[0] == id;
+	return arr.some((arrElem)=> {
+		if(arrElem.selectors)
+		return arrElem.selectors[0] == id;
 	});
 }
 

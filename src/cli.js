@@ -1,7 +1,3 @@
-// import {compress} from "./utils";
-
-import {write} from "../old/write";
-
 const commander = require('commander'),
 	fs = require('fs'),
 	pkg = require('../package.json'),
@@ -16,6 +12,7 @@ import {getSlideInfo} from './modules/slideInfo'
 import {notifyUpdate} from './modules/notifier'
 import {createElement} from './modules/elementCreator'
 import {updateSlide} from './modules/slideUpdater'
+import {write} from './modules/write'
 
 commander.version(pkg.version).description('Filler for cobalt presentations')
 	.arguments('<id>')
@@ -29,7 +26,8 @@ commander.version(pkg.version).description('Filler for cobalt presentations')
 				let newSlide = await updateSlide(newElement, slide);
 				slide = {...slide,...newSlide};
 			}
-			await write(slide);
+			await write(slide)
+				.then(console.log('Writed!'));
 		})();
 		// notifyUpdate(pkg);
 	});
