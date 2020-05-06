@@ -1,5 +1,5 @@
 const updateNotifier = require('update-notifier');
 
-export function notifyUpdate(packageFile, intervalForNotify=100 * 60 * 60 * 1) {
-	updateNotifier({packageFile, updateCheckInterval: intervalForNotify}).notify();
+export function notifyUpdate(pkg, intervalForNotify=100 * 60 * 60 * 1) {
+	updateNotifier({pkg, updateCheckInterval: intervalForNotify}).notify();
 }

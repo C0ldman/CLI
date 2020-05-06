@@ -8,18 +8,18 @@ This CLI will help you to create presentation.
 
 In presentation directory type in terminal
 
-**`cobalt-fill [options] <slide ID>`**
+**`cobalt-fill <slide ID>`**
 
-**Options:**
+**Commands:**
 
-**`-s --size`**
+**`<> required parameter, [] optional parameter`**
 
 Don't make half size of images in styles(add dimensions of image "as is")
 
-**`-c --compress`**
+**`cobalt-fill compress <slide ID> [imageName]`**
 
-Compressing images (reduce the file size), check dimensions for even values.
+Compressing images (reduce the file size).
 
-**`-p --prettyfycss`**
+**`cobalt-fill pretty <slide ID>`**
 
-Sort properties in selectors in CSS file.
+Sort properties in CSS file.
